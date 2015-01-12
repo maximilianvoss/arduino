@@ -57,7 +57,7 @@ void loop() {
 
 	memset(board, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
 
-	createTetermino(&tetermino, l ); //rand() % 7);
+	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 
 	while(1) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
@@ -66,7 +66,7 @@ void loop() {
 		
 		if ( isCollision (board, &tetermino) ) {
 			memcpy ( board, boardDisplay, sizeof(long) * TETRIS_BOARD_HEIGHT);
-			createTetermino(&tetermino, l); // rand() % 7);
+			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 			if ( isCollision(board, &tetermino) ) {
 				break;
 			}
