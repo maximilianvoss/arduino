@@ -83,6 +83,7 @@ void createTeterminoData(tetermino_t *tetermino) {
 	if ( tetermino->type == o ) {
 		data[posY] = 1<<posX | 1<<(posX+1);
 		data[posY + 1] = 1<<posX | 1<<(posX+1);
+		return;
 	}
 
 	if ( tetermino->type == s ) {
@@ -94,6 +95,7 @@ void createTeterminoData(tetermino_t *tetermino) {
 			data[posY] = 1<<posX | 1<<(posX+1);
 			data[posY + 1] = 1<<(posX+1);
 		}
+		return;
 	}
 
 	if ( tetermino->type == z ) {
@@ -105,11 +107,12 @@ void createTeterminoData(tetermino_t *tetermino) {
 			data[posY] = 1<<posX | 1<<(posX-1);
 			data[posY + 1] = 1<<(posX-1);
 		}
+		return;
 	}
 }
 
 void createTetermino(tetermino_t* tetermino, enum teterminoEnum type) {
-	char pos = TETRIS_BOARD_WIDTH / 2;
+	char pos = TETRIS_BOARD_WIDTH / 2 + 1;
 	long *data = tetermino->data;
 	
 	memset(data, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
