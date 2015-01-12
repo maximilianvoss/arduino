@@ -1,11 +1,11 @@
 #include "tetermino.h"
 
 void createTeterminoData(tetermino_t *tetermino) {
-	long *data = tetermino->data;
-	memset(data, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
+	uint16_t *data = tetermino->data;
+	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
 	
-	char posX = tetermino->centerPosX;
-	char posY = tetermino->centerPosY;
+	uint8_t posX = tetermino->centerPosX;
+	uint8_t posY = tetermino->centerPosY;
 	if ( tetermino->type == i ) {
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			data[posY + 1] = 1<<posX;
@@ -112,10 +112,10 @@ void createTeterminoData(tetermino_t *tetermino) {
 }
 
 void createTetermino(tetermino_t* tetermino, enum teterminoEnum type) {
-	char pos = TETRIS_BOARD_WIDTH / 2;
-	long *data = tetermino->data;
+	uint8_t pos = TETRIS_BOARD_WIDTH / 2;
+	uint16_t *data = tetermino->data;
 	
-	memset(data, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
+	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
 	
 	tetermino->pos = 0;	
 	tetermino->type = type;

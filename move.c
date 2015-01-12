@@ -1,8 +1,8 @@
 #include "move.h"
 
 
-char move(long *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
-	char i;
+char move(uint16_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
+	uint8_t i;
 	tetermino_t teterminoFuture;
 	memcpy(&teterminoFuture, tetermino, sizeof(tetermino_t));
 
@@ -21,7 +21,7 @@ char move(long *board, tetermino_t *tetermino, enum moveDirectionEnum direction)
 		for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
 			teterminoFuture.data[i] >>= 1;
 		}
-		tetermino->centerPosX--;
+		teterminoFuture.centerPosX--;
 	} else if ( direction == rotateLeft ) {
 		if ( teterminoFuture.pos == 0 ) {
 			teterminoFuture.pos = 3; 

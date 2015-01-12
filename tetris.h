@@ -1,6 +1,7 @@
 #ifndef __TETRIS_H__
 #define __TETRIS_H__
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -14,11 +15,11 @@ enum posEnum { up, left, down, right };
 enum moveDirectionEnum { moveDown, moveLeft, moveRight, rotateLeft, rotateRight };
 
 typedef struct {
-	char centerPosX;
-	char centerPosY;
+	uint8_t centerPosX;
+	uint8_t centerPosY;
 	enum teterminoEnum type;
 	enum posEnum pos;
-	long data[TETRIS_BOARD_HEIGHT];
+	uint16_t data[TETRIS_BOARD_HEIGHT];
 } tetermino_t;
 
 #include "tetermino.h"
@@ -29,8 +30,10 @@ typedef struct {
 extern "C" {
 #endif
 
-void calculateDisplayBoard(long *boardDisplay, long *board, tetermino_t* tetermino);
-void createBoard(long *board);
+void calculateDisplayBoard(uint16_t *boardDisplay, uint16_t *board, tetermino_t* tetermino);
+void createBoard(uint16_t *board);
+uint8_t clearLines(uint16_t *board);
+void removeLine(uint16_t *board, uint8_t pos);
 
 #ifdef __cplusplus
 }

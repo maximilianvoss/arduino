@@ -20,9 +20,9 @@ char getch() {
         return (buf);
 }
 
-void printBoard(short *board) {
-	char i;
-	char j;
+void printBoard(uint16_t *board) {
+	uint8_t i;
+	uint8_t j;
 
 	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		printf("\n");
@@ -39,10 +39,10 @@ void printBoard(short *board) {
 }
 
 int main() {
-	short board[TETRIS_BOARD_HEIGHT];
-	short boardDisplay[TETRIS_BOARD_HEIGHT];
-	char i;
-	char inputChar;
+	uint16_t board[TETRIS_BOARD_HEIGHT];
+	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
+	uint8_t i;
+	uint8_t inputChar;
 	tetermino_t tetermino;
 
 	createBoard(board);

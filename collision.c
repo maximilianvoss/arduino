@@ -1,7 +1,7 @@
 #include "collision.h"
 
-char isCollision(long *board, tetermino_t *teterminoFuture) {
-	char i;
+uint8_t isCollision(uint16_t *board, tetermino_t *teterminoFuture) {
+	uint8_t i;
 	
 	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
 		if ( teterminoFuture->data[i] & board[i]) {
