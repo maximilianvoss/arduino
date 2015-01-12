@@ -21,15 +21,19 @@ void setup()
 void printBoard(uint16_t *board) {
 	uint8_t i;
 	uint8_t j;
+	uint16_t line;
 
 	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		Serial.print("\n");
 	}
 
-	for ( i = 0; i < TETRIS_BOARD_HEIGHT - HEAD; i++ ) {
+	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 1 ; i-- ) {
+
+		line = (board[1] & (1<<(TETRIS_BOARD_WIDTH + 1) - 1)) - 1;
+
     	digitalWrite(latchPinRow, 0);
 		//move 'em out
-		shiftOut(dataPinRow, clockPinRow,MSBFIRST, board[i]);
+		shiftOut(dataPinRow, clockPinRow,MSBFIRST, line);
 		//return the latch pin high to signal chip that it
 		//no longer needs to listen for information
     	digitalWrite(latchPinRow, 1);
@@ -41,11 +45,12 @@ void printBoard(uint16_t *board) {
 		//no longer needs to listen for information
     	digitalWrite(latchPinColumn, 1);
 
-		for ( j = TETRIS_BOARD_WIDTH; j > 0 ; j-- ) {
-			short level = ( board[i] & 1<<(j-1) ) != 0 ? 1 : 0;
-			Serial.print(level);
+		for ( j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
+			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
+			Serial.print("%d ", level);
 		}
 		Serial.print("\n");
+
 		delay(50);
 	}
 }
