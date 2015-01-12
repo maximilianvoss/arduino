@@ -30,7 +30,7 @@ void printBoard(uint16_t *board) {
 
 	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
 
-		for ( j = 15 /*TETRIS_BOARD_WIDTH + 2*/; j > 0 ; j-- ) {
+		for ( j = TETRIS_BOARD_WIDTH + 1; j >0 ; j-- ) {
 			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			printf("%d ", level);
 		}

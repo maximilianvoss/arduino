@@ -22,7 +22,7 @@ uint8_t clearLines(uint16_t *board) {
 	uint8_t i;
 	uint8_t count = 0;
 
-	for ( i = 1; i < TETRIS_BOARD_HEIGHT - HEAD; i++ ) {
+	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 0; i-- ) {
 		if ( board[i] == 0xFFFF ) {
 			count++;
 			removeLine(board, i);
