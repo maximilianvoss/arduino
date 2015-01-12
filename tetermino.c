@@ -112,7 +112,7 @@ void createTeterminoData(tetermino_t *tetermino) {
 }
 
 void createTetermino(tetermino_t* tetermino, enum teterminoEnum type) {
-	char pos = TETRIS_BOARD_WIDTH / 2 + 1;
+	char pos = TETRIS_BOARD_WIDTH / 2;
 	long *data = tetermino->data;
 	
 	memset(data, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
