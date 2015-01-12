@@ -53,26 +53,32 @@ void printBoard(uint16_t *board) {
 void loop() {
 	uint16_t board[TETRIS_BOARD_HEIGHT];
 	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
+	uint8_t i;
+	uint8_t inputChar;
 	tetermino_t tetermino;
 
-	memset(board, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
-
+	createBoard(board);
 	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 
 	while(1) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
 		printBoard(boardDisplay);
 		
-		
-		if ( isCollision (board, &tetermino) ) {
-			memcpy ( board, boardDisplay, sizeof(long) * TETRIS_BOARD_HEIGHT);
+		if ( move(board, &tetermino, moveDown) ) {
+			memcpy ( board, boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
 			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
-			if ( isCollision(board, &tetermino) ) {
-				break;
-			}
-		} else {
-			moveTetermino(&tetermino);
-		}	
-		delay(500);
+		}
+		clearLines(board);
+		if ( isCollision(board, &tetermino) ) {
+			break;
+		}
+		delay(250);
+	} 
+
+
+	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		board[i] = 0xFFFF;
+		printBoard(board);
+		delay(250);
 	} 
 }
