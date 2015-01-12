@@ -1,9 +1,9 @@
 CC=/usr/bin/gcc
 CXX=/usr/bin/g++
-CFLAGS=-c -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
+CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
 CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
 LDFLAGS=
-ALLFLAGS=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
+ALLFLAGS=-Wall -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
 CSOURCES=$(wildcard *.c)
 CXXSOURCES=$(wildcard *.cpp)
 OBJECTS=$(CSOURCES:.c=.o) $(CXXSOURCES:.cpp=.o)
