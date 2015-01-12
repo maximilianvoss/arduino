@@ -23,17 +23,14 @@ char getch() {
 }
 
 void printBoard(uint16_t *board) {
-	uint8_t i;
-	uint8_t j;
 
-	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
+	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		printf("\n");
 	}
 
-	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
-
-		for ( j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
-			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
+	for ( uint8_t i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
+		for ( uint8_t j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
+			uint8_t level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			printf("%d ", level);
 		}
 		printf("\n");
@@ -43,8 +40,7 @@ void printBoard(uint16_t *board) {
 int main() {
 	uint16_t board[TETRIS_BOARD_HEIGHT];
 	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
-	uint8_t i;
-	uint8_t inputChar;
+
 	tetermino_t tetermino;
 
 	createBoard(board);
@@ -63,7 +59,7 @@ int main() {
 			break;
 		}
 
-		inputChar = getch();
+		uint8_t inputChar = getch();
 		if ( inputChar == 'a') {
 			move (board, &tetermino, moveLeft);
 		} else if ( inputChar == 's') {
@@ -79,7 +75,7 @@ int main() {
 	} 
 
 
-	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+	for ( uint8_t i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
 		board[i] = 0xFFFF;
 		printBoard(board);
 		usleep(250 * 1000);

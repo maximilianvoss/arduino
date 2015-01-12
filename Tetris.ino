@@ -19,17 +19,15 @@ void setup()
 }
 
 void printBoard(uint16_t *board) {
-	uint8_t i;
-	uint8_t j;
-	uint16_t line;
 
-	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
+	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		Serial.print("\n");
 	}
 
-	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 1 ; i-- ) {
+	for ( uint8_t i = TETRIS_BOARD_HEIGHT - HEAD; i > 1 ; i-- ) {
 
-		line = (board[1] & (1<<(TETRIS_BOARD_WIDTH + 1) - 1)) - 1;
+		uint16_t line = (board[2] & (1<<(TETRIS_BOARD_WIDTH)) - 2);
+		line >>=1;
 
     	digitalWrite(latchPinRow, 0);
 		//move 'em out
@@ -45,7 +43,7 @@ void printBoard(uint16_t *board) {
 		//no longer needs to listen for information
     	digitalWrite(latchPinColumn, 1);
 
-		for ( j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
+		for ( uint8_t j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
 			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			Serial.print("%d ", level);
 		}
@@ -58,8 +56,6 @@ void printBoard(uint16_t *board) {
 void loop() {
 	uint16_t board[TETRIS_BOARD_HEIGHT];
 	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
-	uint8_t i;
-	uint8_t inputChar;
 	tetermino_t tetermino;
 
 	createBoard(board);
@@ -81,7 +77,7 @@ void loop() {
 	} 
 
 
-	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+	for ( uint8_t i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
 		board[i] = 0xFFFF;
 		printBoard(board);
 		delay(250);

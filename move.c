@@ -35,6 +35,8 @@ char move(uint16_t *board, tetermino_t *tetermino, enum moveDirectionEnum direct
 			teterminoFuture.pos = 0;
 		}
 		createTeterminoData(&teterminoFuture);
+	} else if ( direction == moveDrop ) {
+		
 	}
 
 	if ( ! isCollision(board, &teterminoFuture) )	{
