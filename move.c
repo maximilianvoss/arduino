@@ -39,8 +39,9 @@ char move(long *board, tetermino_t *tetermino, enum moveDirectionEnum direction)
 
 	if ( ! isCollision(board, &teterminoFuture) )	{
 		memcpy (tetermino, &teterminoFuture, sizeof(tetermino_t));
-		return 0;
+	} else if ( direction == moveDown ) {
+		return 1;
 	}
-	return 1;
+	return 0;
 }
 

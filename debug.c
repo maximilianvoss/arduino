@@ -21,13 +21,12 @@ void printBoard(long *board) {
 int main() {
 	long board[TETRIS_BOARD_HEIGHT];
 	long boardDisplay[TETRIS_BOARD_HEIGHT];
+	char i;
 	tetermino_t tetermino;
 
 	createBoard(&board);
 
 	createTetermino(&tetermino, rand() % 7);
-	tetermino.pos=up;
-	createTeterminoData(&tetermino);
 
 	while(1) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
@@ -40,8 +39,18 @@ int main() {
 		if ( isCollision(board, &tetermino) ) {
 			break;
 		}
-		
+
+
 		usleep(250 * 1000);
 	} 
+
+
+	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		board[i] = 0xFFFFFFFF;
+		printBoard(board);
+		usleep(250 * 1000);
+	}
+	
+
 	return 0;
 }
