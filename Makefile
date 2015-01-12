@@ -1,7 +1,7 @@
 CC=/usr/bin/gcc
 CXX=/usr/bin/g++
 CFLAGS=-c -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
-CXXFLAGS=-Wall -c -std=c++0x
+CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
 LDFLAGS=
 ALLFLAGS=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
 CSOURCES=$(wildcard *.c)
