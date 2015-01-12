@@ -1,5 +1,5 @@
-#ifndef __DEBUG_H__
-#define __DEBUG_H__
+#ifndef __DEBUG_HPP__
+#define __DEBUG_HPP__
 
 #include "tetris.h"
 #include <unistd.h>

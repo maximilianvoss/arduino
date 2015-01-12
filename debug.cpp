@@ -70,7 +70,9 @@ int main() {
 			move (board, &tetermino, moveRight);
 		} else if ( inputChar == 'w') {
 			move (board, &tetermino, rotateRight);
-		} 
+		} else if ( inputChar == ' ') {
+			move (board, &tetermino, moveDrop);
+		}
 		//usleep(250 * 1000);
 	} 
 

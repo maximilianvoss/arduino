@@ -12,7 +12,7 @@
 
 enum teterminoEnum { i, j, l, o, t, s, z };
 enum posEnum { up, left, down, right };
-enum moveDirectionEnum { moveDown, moveLeft, moveRight, rotateLeft, rotateRight };
+enum moveDirectionEnum { moveDown, moveLeft, moveRight, rotateLeft, rotateRight, moveDrop };
 
 typedef struct {
 	uint8_t centerPosX;
