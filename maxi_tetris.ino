@@ -46,7 +46,7 @@ void printBoard(long *board) {
 			Serial.print(level);
 		}
 		Serial.print("\n");
-delay(50);
+		delay(50);
 	}
 }
 
