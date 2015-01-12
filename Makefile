@@ -1,19 +1,26 @@
 CC=/usr/bin/gcc
+CXX=/usr/bin/g++
 CFLAGS=-c -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
+CXXFLAGS=-Wall -c -std=c++0x
 LDFLAGS=
 ALLFLAGS=-funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -std=gnu99
-SOURCES=$(wildcard *.c)
-OBJECTS=$(SOURCES:.c=.o)
+CSOURCES=$(wildcard *.c)
+CXXSOURCES=$(wildcard *.cpp)
+OBJECTS=$(CSOURCES:.c=.o) $(CXXSOURCES:.cpp=.o)
 EXECUTABLE=tetris
 
-all: clean $(SOURCES) $(EXECUTABLE)
+all: clean $(SOURCESC) $(SOURCESCPP) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(ALLFLAGS) $(OBJECTS) --output $@ $(LDFLAGS)
+	$(CXX) $(ALLFLAGS) $(OBJECTS) --output $@ $(LDFLAGS)
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
 
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
 clean:
 	rm -f $(EXECUTABLE)
-	rm -f $(SOURCES:.c=.o)
+	rm -f $(CSOURCES:.c=.o)
+	rm -f $(CXXSOURCES:.cpp=.o)
