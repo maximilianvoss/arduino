@@ -18,9 +18,9 @@ void setup()
   pinMode(dataPinRow, OUTPUT);
 }
 
-void printBoard(long *board) {
-	char i;
-	char j;
+void printBoard(uint16_t *board) {
+	uint8_t i;
+	uint8_t j;
 
 	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		Serial.print("\n");
@@ -51,11 +51,11 @@ void printBoard(long *board) {
 }
 
 void loop() {
-	long board[TETRIS_BOARD_HEIGHT];
-	long boardDisplay[TETRIS_BOARD_HEIGHT];
+	uint16_t board[TETRIS_BOARD_HEIGHT];
+	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
 	tetermino_t tetermino;
 
-	memset(board, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
+	memset(board, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
 
 	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 
