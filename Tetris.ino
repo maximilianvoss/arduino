@@ -9,13 +9,13 @@ int dataPinRow = 6;
  
 void setup()
 {
-  Serial.begin(9600);
-  pinMode(latchPinColumn, OUTPUT);
-  pinMode(clockPinColumn, OUTPUT);
-  pinMode(dataPinColumn, OUTPUT);
-  pinMode(latchPinRow, OUTPUT);
-  pinMode(clockPinRow, OUTPUT);
-  pinMode(dataPinRow, OUTPUT);
+	Serial.begin(9600);
+ 	pinMode(latchPinColumn, OUTPUT);
+	pinMode(clockPinColumn, OUTPUT);
+	pinMode(dataPinColumn, OUTPUT);
+	pinMode(latchPinRow, OUTPUT);
+	pinMode(clockPinRow, OUTPUT);
+	pinMode(dataPinRow, OUTPUT);
 }
 
 void printBoard(uint16_t *board) {
