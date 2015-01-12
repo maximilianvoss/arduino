@@ -1,4 +1,6 @@
-#include "debug.hpp"
+#include "debug.h"
+
+#ifdef PC_DEBUG
 
 char getch() {
         char buf = 0;
@@ -86,3 +88,5 @@ int main() {
 
 	return 0;
 }
+
+#endif
