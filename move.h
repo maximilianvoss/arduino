@@ -7,11 +7,7 @@
 extern "C" {
 #endif
 
-void moveTetermino(tetermino_t *tetermino);
-void moveTeterminoLeft(tetermino_t *tetermino);
-void moveLeft(long *board, tetermino_t *tetermino);
-void moveTeterminoRight(tetermino_t *tetermino );
-void moveRight(long *board, tetermino_t *tetermino);
+char move(long *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
 
 #ifdef __cplusplus
 }

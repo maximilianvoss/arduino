@@ -8,4 +8,12 @@ void calculateDisplayBoard(long *boardDisplay, long *board, tetermino_t* tetermi
 	}
 }
 
+void createBoard(long *board) {
+	int i;
+	memset(board, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
 
+	for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		board[i] = 1 | 1<<TETRIS_BOARD_WIDTH + 1;
+	}
+	board[0] = 0xFFFFFFFF;
+}

@@ -10,7 +10,7 @@ void printBoard(long *board) {
 
 	for ( i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
 
-		for ( j = TETRIS_BOARD_WIDTH; j > 0 ; j-- ) {
+		for ( j = TETRIS_BOARD_WIDTH + 2; j > 0 ; j-- ) {
 			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			printf("%d ", level);
 		}
@@ -23,9 +23,9 @@ int main() {
 	long boardDisplay[TETRIS_BOARD_HEIGHT];
 	tetermino_t tetermino;
 
-	memset(board, 0, sizeof(long) * TETRIS_BOARD_HEIGHT);
+	createBoard(&board);
 
-	createTetermino(&tetermino, z ); //rand() % 7);
+	createTetermino(&tetermino, rand() % 7);
 	tetermino.pos=up;
 	createTeterminoData(&tetermino);
 
@@ -33,17 +33,15 @@ int main() {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
 		printBoard(boardDisplay);
 		
-		
-		if ( isCollision (board, &tetermino) ) {
+		if ( move(board, &tetermino, moveDown) ) {
 			memcpy ( board, boardDisplay, sizeof(long) * TETRIS_BOARD_HEIGHT);
-			createTetermino(&tetermino, j); // rand() % 7);
-			if ( isCollision(board, &tetermino) ) {
-				break;
-			}
-		} else {
-			moveTetermino(&tetermino);
-		}	
-		usleep(500 * 1000);
+			createTetermino(&tetermino, rand() % 7);
+		}
+		if ( isCollision(board, &tetermino) ) {
+			break;
+		}
+		
+		usleep(250 * 1000);
 	} 
 	return 0;
 }
