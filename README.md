@@ -1,5 +1,4 @@
-# Tetris
-Tetris for Arduino
+# Tetris for Arduino
 
 Check out the WIKI! 
 https://github.com/maximilianvoss/tetris/wiki
