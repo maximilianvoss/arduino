@@ -59,6 +59,7 @@ void *threadMoveElements(void *ptr) {
 		}
 		usleep(250 * 1000);
 	}
+	return NULL;
 }
 
 void *threadGetKeys(void *ptr) {
@@ -77,10 +78,10 @@ void *threadGetKeys(void *ptr) {
 		} else if ( inputChar == ' ') {
 		}
 	}
+	return NULL;
 }
 
 int main() {
-
 	pthread_t thread1, thread2;
 	isGameOver = 0;
 
@@ -93,7 +94,7 @@ int main() {
 		exit(EXIT_FAILURE);
 	}
 
-	int16_t iret2 = pthread_create(&thread1, NULL, threadGetKeys, NULL);
+	int16_t iret2 = pthread_create(&thread2, NULL, threadGetKeys, NULL);
 	if(iret2) {
 		fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
 		exit(EXIT_FAILURE);

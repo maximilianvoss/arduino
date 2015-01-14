@@ -15,10 +15,10 @@ enum posEnum { up, left, down, right };
 enum moveDirectionEnum { moveDown, moveLeft, moveRight, rotateLeft, rotateRight, moveDrop };
 
 typedef struct {
-	uint8_t centerPosX;
-	uint8_t centerPosY;
+	uint8_t volatile centerPosX;
+	uint8_t volatile centerPosY;
 	enum teterminoEnum type;
-	enum posEnum pos;
+	enum posEnum volatile pos;
 	uint16_t data[TETRIS_BOARD_HEIGHT];
 } tetermino_t;
 
