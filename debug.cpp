@@ -2,6 +2,12 @@
 
 #ifdef PC_DEBUG
 
+uint8_t isGameOver;
+uint16_t board[TETRIS_BOARD_HEIGHT];
+uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
+
+tetermino_t tetermino;
+
 char getch() {
         char buf = 0;
         struct termios old = {0};
@@ -23,7 +29,6 @@ char getch() {
 }
 
 void printBoard(uint16_t *board) {
-
 	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		printf("\n");
 	}
@@ -37,29 +42,26 @@ void printBoard(uint16_t *board) {
 	}
 }
 
-int main() {
-	uint16_t board[TETRIS_BOARD_HEIGHT];
-	uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
-
-	tetermino_t tetermino;
-
-	createBoard(board);
-	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
-
-	while(1) {
+void *threadMoveElements(void *ptr) {
+	while ( ! isGameOver) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
-		printBoard(boardDisplay);
-		
 		if ( move(board, &tetermino, moveDown) ) {
 			memcpy ( board, boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
 			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 		}
 		clearLines(board);
 		if ( isCollision(board, &tetermino) ) {
-			break;
+			isGameOver = 1;
 		}
+		usleep(250 * 1000);
+	}
+}
 
-		uint8_t inputChar = getch();
+void *threadGetKeys(void *ptr) {
+	uint8_t inputChar;
+
+	while ( !isGameOver) {
+		inputChar = getch();
 		if ( inputChar == 'a') {
 			move (board, &tetermino, moveLeft);
 		} else if ( inputChar == 's') {
@@ -69,10 +71,34 @@ int main() {
 		} else if ( inputChar == 'w') {
 			move (board, &tetermino, rotateRight);
 		} else if ( inputChar == ' ') {
-			move (board, &tetermino, moveDrop);
 		}
-		//usleep(250 * 1000);
-	} 
+	}
+}
+
+int main() {
+
+	pthread_t thread1, thread2;
+	isGameOver = 0;
+
+	createBoard(board);
+	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
+
+	int16_t iret1 = pthread_create(&thread1, NULL, threadMoveElements, NULL);
+	if(iret1) {
+		fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
+		exit(EXIT_FAILURE);
+	}
+
+	int16_t iret2 = pthread_create(&thread1, NULL, threadGetKeys, NULL);
+	if(iret2) {
+		fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
+		exit(EXIT_FAILURE);
+	}
+
+	while(! isGameOver) {
+		printBoard(boardDisplay);
+		usleep(250 * 1000);
+	}
 
 
 	for ( uint8_t i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
@@ -81,6 +107,8 @@ int main() {
 		usleep(250 * 1000);
 	}
 	
+	pthread_join( thread1, NULL);
+	pthread_join( thread2, NULL);
 
 	return 0;
 }

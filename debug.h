@@ -5,6 +5,7 @@
 #include "tetris.h"
 #include <unistd.h>
 #include <termios.h>
+#include <pthread.h>
 
 #endif
 #endif
