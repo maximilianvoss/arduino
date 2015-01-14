@@ -36,7 +36,11 @@ void printBoard(uint16_t *board) {
 	for ( uint8_t i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
 		for ( uint8_t j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
 			uint8_t level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
-			printf("%d ", level);
+			if ( level ) {
+				printf("1 "); 
+			} else {
+				printf("  ");
+			}
 		}
 		printf("\n");
 	}
