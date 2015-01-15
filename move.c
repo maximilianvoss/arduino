@@ -36,7 +36,15 @@ char move(uint16_t volatile *board, tetermino_t *tetermino, enum moveDirectionEn
 		}
 		createTeterminoData(&teterminoFuture);
 	} else if ( direction == moveDrop ) {
-		// TODO: implement the drop
+		for ( i = tetermino->centerPosY; i > 0; i-- ) {
+			teterminoFuture.centerPosY = i;
+			createTeterminoData(&teterminoFuture);
+			if ( isCollision(board, &teterminoFuture) ) {
+				break;
+			}
+		}
+		teterminoFuture.centerPosY++;
+		createTeterminoData(&teterminoFuture);
 	}
 
 	if ( ! isCollision(board, &teterminoFuture) )	{

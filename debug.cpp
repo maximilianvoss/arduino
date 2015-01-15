@@ -76,6 +76,7 @@ void *threadGetKeys(void *ptr) {
 		} else if ( inputChar == 'w') {
 			move (board, &tetermino, rotateRight);
 		} else if ( inputChar == ' ') {
+			move (board, &tetermino, moveDrop);
 		}
 	}
 	return NULL;
