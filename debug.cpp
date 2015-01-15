@@ -2,9 +2,9 @@
 
 #ifdef PC_DEBUG
 
-uint8_t isGameOver;
-uint16_t board[TETRIS_BOARD_HEIGHT];
-uint16_t boardDisplay[TETRIS_BOARD_HEIGHT];
+uint8_t volatile isGameOver;
+uint16_t volatile board[TETRIS_BOARD_HEIGHT];
+uint16_t volatile boardDisplay[TETRIS_BOARD_HEIGHT];
 
 tetermino_t tetermino;
 
@@ -28,7 +28,7 @@ char getch() {
         return (buf);
 }
 
-void printBoard(uint16_t *board) {
+void printBoard(uint16_t volatile *board) {
 	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_HEIGHT + HEAD; i++ ) {
 		printf("\n");
 	}
@@ -50,7 +50,7 @@ void *threadMoveElements(void *ptr) {
 	while ( ! isGameOver) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
 		if ( move(board, &tetermino, moveDown) ) {
-			memcpy ( board, boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
+			memcpy ( (void *) board, (void *) boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
 			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
 		}
 		clearLines(board);
@@ -84,6 +84,11 @@ void *threadGetKeys(void *ptr) {
 int main() {
 	pthread_t thread1, thread2;
 	isGameOver = 0;
+
+	//board = (uint16_t*) malloc(sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
+	//boardDisplay = (uint16_t*) malloc(sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
+//	uint16_t volatile board[TETRIS_BOARD_HEIGHT];
+//uint16_t volatile boardDisplay[TETRIS_BOARD_HEIGHT];
 
 	createBoard(board);
 	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));

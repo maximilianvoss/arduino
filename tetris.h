@@ -30,10 +30,10 @@ typedef struct {
 extern "C" {
 #endif
 
-void calculateDisplayBoard(uint16_t *boardDisplay, uint16_t *board, tetermino_t* tetermino);
-void createBoard(uint16_t *board);
-uint8_t clearLines(uint16_t *board);
-void removeLine(uint16_t *board, uint8_t pos);
+void calculateDisplayBoard(uint16_t volatile *boardDisplay, uint16_t volatile *board, tetermino_t* tetermino);
+void createBoard(uint16_t volatile *board);
+uint8_t clearLines(uint16_t volatile *board);
+void removeLine(uint16_t volatile *board, uint8_t pos);
 
 #ifdef __cplusplus
 }
