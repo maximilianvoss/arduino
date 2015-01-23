@@ -9,7 +9,7 @@ int dataPinRow = 6;
  
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(115200);
  	pinMode(latchPinColumn, OUTPUT);
 	pinMode(clockPinColumn, OUTPUT);
 	pinMode(dataPinColumn, OUTPUT);
@@ -26,7 +26,7 @@ void printBoard(uint16_t *board) {
 
 	for ( uint8_t i = TETRIS_BOARD_HEIGHT - HEAD; i > 1 ; i-- ) {
 
-		uint16_t line = (board[2] & (1<<(TETRIS_BOARD_WIDTH)) - 2);
+		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH)) - 2);
 		line >>=1;
 
     	digitalWrite(latchPinRow, 0);
