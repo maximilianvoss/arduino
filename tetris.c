@@ -15,7 +15,7 @@ void createBoard(uint16_t volatile *board) {
 
 	board[0] = 0xFFFF;
 	for ( i = 1; i < TETRIS_BOARD_HEIGHT; i++ ) {
-		board[i] = 0xFFFF - ((1<<TETRIS_BOARD_WIDTH) - 1) + 1;
+		board[i] = 0xFFFF - ((1<<TETRIS_BOARD_WIDTH + 1) - 1) + 1;
 	}
 }
 

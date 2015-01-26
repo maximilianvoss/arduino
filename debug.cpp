@@ -34,7 +34,7 @@ void printBoard(uint16_t volatile *board) {
 	}
 
 	for ( uint8_t i = TETRIS_BOARD_HEIGHT - HEAD; i > 0 ; i-- ) {
-		for ( uint8_t j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
+		for ( uint8_t j = TETRIS_BOARD_WIDTH + 2; j > 0 ; j-- ) {
 			uint8_t level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			if ( level ) {
 				printf("1 "); 
@@ -115,7 +115,7 @@ int main() {
 	for ( uint8_t i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
 		board[i] = 0xFFFF;
 		printBoard(board);
-		usleep(250 * 1000);
+		usleep(500 * 1000);
 	}
 	
 	pthread_join( thread1, NULL);

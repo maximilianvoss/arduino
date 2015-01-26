@@ -43,7 +43,7 @@ void printBoard(uint16_t *board) {
 		//no longer needs to listen for information
     	digitalWrite(latchPinColumn, 1);
 
-		for ( uint8_t j = TETRIS_BOARD_WIDTH + 1; j > 0 ; j-- ) {
+		for ( uint8_t j = TETRIS_BOARD_WIDTH + 2; j > 0 ; j-- ) {
 			short level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			Serial.print(level);
 		}
