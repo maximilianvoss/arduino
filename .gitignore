@@ -2,3 +2,9 @@
 *.o
 
 tetris
+
+*.a
+
+*.elf
+
+*.hex
