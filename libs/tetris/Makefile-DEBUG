@@ -1,0 +1,33 @@
+# C Compiler
+CC=/usr/bin/gcc
+CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
+
+# C++ Compiler
+CXX=/usr/bin/g++
+CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
+
+# Linker
+LDFLAGS=
+ALLFLAGS=-Wall -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
+
+# Sources
+CSOURCES=$(wildcard *.c)
+CXXSOURCES=$(wildcard *.cpp)
+OBJECTS=$(CSOURCES:.c=.o) $(CXXSOURCES:.cpp=.o)
+EXECUTABLE=tetris
+
+all: clean $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CXX) $(ALLFLAGS) $(OBJECTS) --output $@ $(LDFLAGS)
+
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+clean:
+	rm -f $(EXECUTABLE)
+	rm -f $(CSOURCES:.c=.o)
+	rm -f $(CXXSOURCES:.cpp=.o)
