@@ -1,9 +1,9 @@
 # C Compiler
-CC=/usr/local/bin/avr-gcc
+CC=avr-gcc
 CFLAGS=-c -g -Os -w -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I libs/arduino -I libs/tetris -I libs/arduino/variants/standard -I .
 
 # C++ Compiler
-CXX=/usr/local/bin/avr-g++
+CXX=avr-g++
 CXXFLAGS=-c -g -Os -w -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I libs/arduino -I libs/tetris -I libs/arduino/variants/standard -I .
 
 # Linking
@@ -11,16 +11,16 @@ LDFLAGS=-L libs/arduino -L libs/tetris -larduino -ltetris
 ALLFLAGS=-w -Os -Wl,--gc-sections -mmcu=atmega328p
 
 # AVR Object
-OBJCOPY=/usr/local/bin/avr-objcopy
+OBJCOPY=avr-objcopy
 HEXFLAGS=-O ihex -R .eeprom
 EEPFLAGS=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
 
 # AVR Dude
-AVRDUDE=/usr/local/bin/avrdude
+AVRDUDE=avrdude
 AVRDUDEFLAGS=-Cetc/avrdude.conf -v -patmega328p -carduino -D 
 
 # AVR Size
-AVRSIZE=/usr/local/bin/avr-size
+AVRSIZE=avr-size
 
 # Sources
 CSOURCES=$(wildcard *.c)

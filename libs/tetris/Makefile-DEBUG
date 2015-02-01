@@ -1,9 +1,9 @@
 # C Compiler
-CC=/usr/bin/gcc
+CC=gcc
 CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
 
 # C++ Compiler
-CXX=/usr/bin/g++
+CXX=g++
 CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
 
 # Linker

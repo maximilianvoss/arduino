@@ -1,13 +1,13 @@
 # C Compiler
-CC=/usr/local/bin/avr-gcc
+CC=avr-gcc
 CFLAGS=-c -g -Os -w -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
 
 # C++ Compiler
-CXX=/usr/local/bin/avr-g++
+CXX=avr-g++
 CXXFLAGS=-c -g -Os -w -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
 
 # Archive
-AR=/usr/local/bin/avr-ar
+AR=avr-ar
 ARFLAGS=-rcs
 
 # Sources

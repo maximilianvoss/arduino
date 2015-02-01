@@ -1,9 +1,9 @@
 # C Compiler
-CC=/usr/local/bin/avr-gcc
+CC=avr-gcc
 CFLAGS=-c -g -Os -w -Wl,--gc-sections -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
 
 # Archive
-AR=/usr/local/bin/avr-ar
+AR=avr-ar
 ARFLAGS=-rcs
 
 # Sources
