@@ -26,8 +26,7 @@ ISR(TIMER1_COMPA_vect) {
 	}
 }
 
-void setup()
-{
+void setup() {
 	Serial.begin(SERIAL_BAUDRATE);
  	pinMode(LATCHPIN, OUTPUT);
 	pinMode(COLUMN_CLOCKPIN, OUTPUT);
@@ -46,7 +45,7 @@ void setup()
     sei();
 }
 
-void printBoard(uint16_t volatile *board) {
+void printBoard(uint16_t volatile *board) {	
 	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT - HEAD; i++ ) {
 		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
 		line >>=1;
@@ -72,3 +71,4 @@ void loop() {
 		printBoard(board);
 	}
 }
+
