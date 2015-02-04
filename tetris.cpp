@@ -8,8 +8,6 @@ uint8_t volatile gameOver;
 tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
-		Serial.print("Board\n");
-
 	if ( ! gameOver ) {
 		if ( move(board, &tetermino, moveDown) ) {
 			memcpy ( (void *) &board, (void *) &boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
@@ -50,17 +48,18 @@ void setup()
 }
 
 void printBoard(uint16_t volatile *board) {
-	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT; i++ ) {
+	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT - HEAD; i++ ) {
 		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
 		line >>=1;
 
     	digitalWrite(ROW_LATCHPIN, 0);
-		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, line);
-    	digitalWrite(ROW_LATCHPIN, 1);
-
     	digitalWrite(COLUMN_LATCHPIN, 0);
+
+		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, line);
 		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
+		
     	digitalWrite(COLUMN_LATCHPIN, 1);
+    	digitalWrite(ROW_LATCHPIN, 1);
 	}
 }
 
