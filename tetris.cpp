@@ -52,10 +52,10 @@ void printBoard(uint16_t volatile *board) {
 		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
 		line >>=1;
 
-    	digitalWrite(LATCHPIN, 0);
+		digitalWrite(LATCHPIN, 0);
 		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, line);
 		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
-    	digitalWrite(LATCHPIN, 1);
+		digitalWrite(LATCHPIN, 1);
 	}
 }
 
