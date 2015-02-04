@@ -43,6 +43,8 @@ void setup() {
     TCCR1B |= (1 << CS12);
     TIMSK1 |= (1 << OCIE1A);
     sei();
+
+    initTeterminoHistory();
 }
 
 void printBoard(uint16_t volatile *board) {	
