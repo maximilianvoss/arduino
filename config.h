@@ -3,11 +3,11 @@
 
 #define SERIAL_BAUDRATE 115200
 /*
-#define COLUMN_LATCHPIN 8
+#define LATCHPIN 3
+
 #define COLUMN_CLOCKPIN 12
 #define COLUMN_DATAPIN 11
 
-#define ROW_LATCHPIN 3
 #define ROW_CLOCKPIN 7
 #define ROW_DATAPIN 6
 //*/
