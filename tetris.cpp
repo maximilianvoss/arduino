@@ -29,10 +29,9 @@ ISR(TIMER1_COMPA_vect) {
 void setup()
 {
 	Serial.begin(SERIAL_BAUDRATE);
- 	pinMode(COLUMN_LATCHPIN, OUTPUT);
+ 	pinMode(LATCHPIN, OUTPUT);
 	pinMode(COLUMN_CLOCKPIN, OUTPUT);
 	pinMode(COLUMN_DATAPIN, OUTPUT);
-	pinMode(ROW_LATCHPIN, OUTPUT);
 	pinMode(ROW_CLOCKPIN, OUTPUT);
 	pinMode(ROW_DATAPIN, OUTPUT);
 
@@ -52,14 +51,10 @@ void printBoard(uint16_t volatile *board) {
 		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
 		line >>=1;
 
-    	digitalWrite(ROW_LATCHPIN, 0);
-    	digitalWrite(COLUMN_LATCHPIN, 0);
-
+    	digitalWrite(LATCHPIN, 0);
 		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, line);
 		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
-		
-    	digitalWrite(COLUMN_LATCHPIN, 1);
-    	digitalWrite(ROW_LATCHPIN, 1);
+    	digitalWrite(LATCHPIN, 1);
 	}
 }
 
