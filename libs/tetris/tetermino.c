@@ -1,5 +1,7 @@
 #include "tetermino.h"
 
+uint8_t static teterminoHistory[TETERMINO_CREATION_HISTORY];
+
 void createTeterminoData(tetermino_t *tetermino) {
 	uint16_t *data = tetermino->data;
 	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
@@ -111,17 +113,53 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 }
 
-void createTetermino(tetermino_t* tetermino, enum teterminoEnum type) {
+void initTeterminoHistory() {
+	uint8_t i;
+	for ( i = 0; i < TETERMINO_CREATION_HISTORY; i++ ) {
+		teterminoHistory[i] = 255;
+	}
+}
+
+uint8_t checkTeterminoHistory(uint8_t value) {
+	uint8_t i;
+	uint8_t count = 0;
+	for ( i = 0; i < TETERMINO_CREATION_HISTORY; i++ ) {
+		if ( teterminoHistory[i] == value ) {
+			count++;
+			if ( count > TETERMINO_CREATION_THERSHOLD ) {
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+uint8_t calculateNewTetermino() {
+	uint8_t i;
+	uint8_t type;
+	type = rand() % 7;
+	while ( checkTeterminoHistory(type)) {
+		type = rand() % 7;
+	}
+
+	for ( i = 1; i < TETERMINO_CREATION_HISTORY; i++ ) {
+		teterminoHistory[i] = teterminoHistory[i - 1];
+	}
+	teterminoHistory[0] = type;
+	return type;
+}
+
+void createTetermino(tetermino_t* tetermino) {
 	uint8_t pos = TETRIS_BOARD_WIDTH / 2;
 	uint16_t *data = tetermino->data;
 	
 	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
 	
 	tetermino->pos = 0;	
-	tetermino->type = type;
+	tetermino->type = calculateNewTetermino();
 	tetermino->centerPosX=pos;
 
-	if ( type == i ) {
+	if ( tetermino->type == i ) {
 		tetermino->centerPosY=TETRIS_BOARD_HEIGHT-2;
 		createTeterminoData(tetermino);
 		return;

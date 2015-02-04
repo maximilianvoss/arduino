@@ -11,7 +11,7 @@ ISR(TIMER1_COMPA_vect) {
 	if ( ! gameOver ) {
 		if ( move(board, &tetermino, moveDown) ) {
 			memcpy ( (void *) &board, (void *) &boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
-			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
+			createTetermino(&tetermino);
 		}
 		clearLines(board);
 		if ( isCollision(board, &tetermino) ) {
@@ -65,7 +65,7 @@ void printBoard(uint16_t volatile *board) {
 void loop() {
 	gameOver = 0;
 	createBoard(board);
-	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
+	createTetermino(&tetermino);
 
 	while(! gameOver) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);

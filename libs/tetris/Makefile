@@ -1,6 +1,6 @@
 # C Compiler
 CC=avr-gcc
-CFLAGS=-c -g -Os -w -Wl,--gc-sections -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
+CFLAGS=-c -g -Os -w -Wall -Wl,--gc-sections -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
 
 # Archive
 AR=avr-ar

@@ -51,7 +51,7 @@ void *threadMoveElements(void *ptr) {
 		calculateDisplayBoard(boardDisplay, board, &tetermino);
 		if ( move(board, &tetermino, moveDown) ) {
 			memcpy ( (void *) board, (void *) boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
-			createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
+			createTetermino(&tetermino);
 		}
 		clearLines(board);
 		if ( isCollision(board, &tetermino) ) {
@@ -92,7 +92,7 @@ int main() {
 //uint16_t volatile boardDisplay[TETRIS_BOARD_HEIGHT];
 
 	createBoard(board);
-	createTetermino(&tetermino, static_cast<teterminoEnum>(rand() % 7));
+	createTetermino(&tetermino);
 
 	int16_t iret1 = pthread_create(&thread1, NULL, threadMoveElements, NULL);
 	if(iret1) {
