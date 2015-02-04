@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 #define HEAD 4
-#define TETRIS_BOARD_HEIGHT 23	// HEIGHT + HEAD + 1 (BOTTOM)
-#define TETRIS_BOARD_WIDTH 10 
+#define TETRIS_BOARD_HEIGHT 13	// HEIGHT + HEAD + 1 (BOTTOM)
+#define TETRIS_BOARD_WIDTH 8 
 
 enum teterminoEnum { i, j, l, o, t, s, z };
 enum posEnum { up, left, down, right };
