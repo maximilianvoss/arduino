@@ -2,15 +2,15 @@
 #include <tetris.h>
 #include "config.h"
 
-uint16_t volatile board[TETRIS_BOARD_HEIGHT];
-uint16_t volatile boardDisplay[TETRIS_BOARD_HEIGHT];
+uint16_t volatile board[TETRIS_BOARD_TOTAL_HEIGHT];
+uint16_t volatile boardDisplay[TETRIS_BOARD_TOTAL_HEIGHT];
 uint8_t volatile gameOver;
 tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
 	if ( ! gameOver ) {
 		if ( move(board, &tetermino, moveDown) ) {
-			memcpy ( (void *) &board, (void *) &boardDisplay, sizeof(short) * TETRIS_BOARD_HEIGHT);
+			memcpy ( (void *) &board, (void *) &boardDisplay, sizeof(short) * TETRIS_BOARD_TOTAL_HEIGHT);
 			createTetermino(&tetermino);
 		}
 		clearLines(board);
@@ -20,7 +20,7 @@ ISR(TIMER1_COMPA_vect) {
 	} else {
 		board[gameOver] = 0xFFFF;
 		gameOver++;
-		if ( gameOver > TETRIS_BOARD_HEIGHT - HEAD ) {
+		if ( gameOver > TETRIS_BOARD_HEIGHT ) {
 			gameOver = 0;
 		}
 	}
@@ -48,7 +48,7 @@ void setup() {
 }
 
 void printBoard(uint16_t volatile *board) {	
-	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT - HEAD; i++ ) {
+	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT; i++ ) {
 		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
 		line >>=1;
 
