@@ -4,7 +4,7 @@ uint8_t static teterminoHistory[TETERMINO_CREATION_HISTORY];
 
 void createTeterminoData(tetermino_t *tetermino) {
 	uint16_t *data = tetermino->data;
-	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
+	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 	
 	uint8_t posX = tetermino->centerPosX;
 	uint8_t posY = tetermino->centerPosY;
@@ -153,18 +153,18 @@ void createTetermino(tetermino_t* tetermino) {
 	uint8_t pos = TETRIS_BOARD_WIDTH / 2;
 	uint16_t *data = tetermino->data;
 	
-	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_HEIGHT);
+	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 	
 	tetermino->pos = 0;	
 	tetermino->type = calculateNewTetermino();
 	tetermino->centerPosX=pos;
 
 	if ( tetermino->type == i ) {
-		tetermino->centerPosY=TETRIS_BOARD_HEIGHT-2;
+		tetermino->centerPosY=TETRIS_BOARD_TOTAL_HEIGHT-2;
 		createTeterminoData(tetermino);
 		return;
 	}  else {
-		tetermino->centerPosY=TETRIS_BOARD_HEIGHT-3;
+		tetermino->centerPosY=TETRIS_BOARD_TOTAL_HEIGHT-3;
 		createTeterminoData(tetermino);
 		return;
 	} 

@@ -7,8 +7,9 @@
 #include <stdlib.h>
 
 #define HEAD 4
-#define TETRIS_BOARD_HEIGHT 13	// HEIGHT + HEAD + 1 (BOTTOM)
+#define TETRIS_BOARD_HEIGHT 8
 #define TETRIS_BOARD_WIDTH 8 
+#define TETRIS_BOARD_TOTAL_HEIGHT (TETRIS_BOARD_HEIGHT + HEAD + 1)
 
 enum teterminoEnum { i, j, l, o, t, s, z };
 enum posEnum { up, left, down, right };
@@ -19,7 +20,7 @@ typedef struct {
 	uint8_t volatile centerPosY;
 	enum teterminoEnum type;
 	enum posEnum volatile pos;
-	uint16_t data[TETRIS_BOARD_HEIGHT];
+	uint16_t data[TETRIS_BOARD_TOTAL_HEIGHT];
 } tetermino_t;
 
 #include "tetermino.h"

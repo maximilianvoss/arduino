@@ -7,18 +7,18 @@ char move(uint16_t volatile *board, tetermino_t *tetermino, enum moveDirectionEn
 	memcpy(&teterminoFuture, tetermino, sizeof(tetermino_t));
 
 	if ( direction == moveDown ) {
-		for ( i = 1; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		for ( i = 1; i < TETRIS_BOARD_TOTAL_HEIGHT; i++ ) {
 			teterminoFuture.data[i - 1] = teterminoFuture.data[i];
 		}
-		teterminoFuture.data[TETRIS_BOARD_HEIGHT - 1] = 0;
+		teterminoFuture.data[TETRIS_BOARD_TOTAL_HEIGHT - 1] = 0;
 		teterminoFuture.centerPosY--;
 	} else if ( direction == moveLeft ) {
-		for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		for ( i = 0; i < TETRIS_BOARD_TOTAL_HEIGHT; i++ ) {
 			teterminoFuture.data[i] <<= 1;
 		}
 		teterminoFuture.centerPosX++;
 	} else if ( direction == moveRight ) {
-		for ( i = 0; i < TETRIS_BOARD_HEIGHT; i++ ) {
+		for ( i = 0; i < TETRIS_BOARD_TOTAL_HEIGHT; i++ ) {
 			teterminoFuture.data[i] >>= 1;
 		}
 		teterminoFuture.centerPosX--;
