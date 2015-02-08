@@ -9,6 +9,8 @@ void createTeterminoData(tetermino_t *tetermino) {
 	uint8_t posX = tetermino->centerPosX;
 	uint8_t posY = tetermino->centerPosY;
 	if ( tetermino->type == i ) {
+		tetermino->color = cyan;
+
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			data[posY + 1] = 1<<posX;
 			data[posY] = 1<<posX;
@@ -21,6 +23,8 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 
 	if ( tetermino->type == j ) {
+		tetermino->color = blue;
+
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			data[posY] = 1<<posX;
 			if ( tetermino->pos == up ) {
@@ -42,6 +46,8 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 
 	if ( tetermino->type == l ) {
+		tetermino->color = orange;
+
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			data[posY] = 1<<posX;
 			if ( tetermino->pos == up ) {
@@ -63,6 +69,8 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 
 	if ( tetermino->type == t ) {
+		tetermino->color = magenta;
+
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			data[posY] = 1<<posX | 1<<(posX+1) | 1<<(posX-1);
 			if ( tetermino->pos == down ) {
@@ -83,12 +91,16 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 
 	if ( tetermino->type == o ) {
+		tetermino->color = yellow;
+
 		data[posY] = 1<<posX | 1<<(posX+1);
 		data[posY + 1] = 1<<posX | 1<<(posX+1);
 		return;
 	}
 
 	if ( tetermino->type == s ) {
+		tetermino->color = lime;
+
 		if ( tetermino->pos == up || tetermino->pos == down) {
 			data[posY] = 1<<posX | 1<<(posX+1);
 			data[posY + 1] = 1<<posX | 1<<(posX-1);
@@ -101,6 +113,8 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 
 	if ( tetermino->type == z ) {
+		tetermino->color = red;
+
 		if ( tetermino->pos == up || tetermino->pos == down) {
 			data[posY] = 1<<posX | 1<<(posX-1);
 			data[posY + 1] = 1<<posX | 1<<(posX+1);

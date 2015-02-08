@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-uint8_t isCollision(uint16_t volatile *board, tetermino_t *tetermino);
+uint8_t isCollision(board_t *board, tetermino_t *tetermino);
 
 #ifdef __cplusplus
 }

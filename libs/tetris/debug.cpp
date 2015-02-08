@@ -3,8 +3,8 @@
 #ifdef PC_DEBUG
 
 uint8_t volatile isGameOver;
-uint16_t volatile board[TETRIS_BOARD_TOTAL_HEIGHT];
-uint16_t volatile boardDisplay[TETRIS_BOARD_TOTAL_HEIGHT];
+board_t board;
+board_t boardDisplay;
 
 tetermino_t tetermino;
 
@@ -28,33 +28,67 @@ char getch() {
         return (buf);
 }
 
-void printBoard(uint16_t volatile *board) {
+void printBoard(board_t *board) {
 	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_TOTAL_HEIGHT + HEAD; i++ ) {
 		printf("\n");
 	}
 
 	for ( uint8_t i = TETRIS_BOARD_HEIGHT; i > 0 ; i-- ) {
 		for ( uint8_t j = TETRIS_BOARD_WIDTH + 2; j > 0 ; j-- ) {
-			uint8_t level = ( board[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
+			uint8_t level = ( board->collision[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			if ( level ) {
-				printf("1 "); 
+				printf("1"); 
 			} else {
-				printf("  ");
+				printf(" ");
 			}
 		}
+
+		printf("\t");
+
+		for ( uint8_t j = TETRIS_BOARD_WIDTH; j > 0 ; j-- ) {
+			uint8_t level = board->red[i-1][j-1];
+			if ( level ) {
+				printf("1"); 
+			} else {
+				printf(" ");
+			}
+		}
+
+		printf("\t");
+
+		for ( uint8_t j = TETRIS_BOARD_WIDTH; j > 0 ; j-- ) {
+			uint8_t level = board->green[i-1][j-1];
+			if ( level ) {
+				printf("1"); 
+			} else {
+				printf(" ");
+			}
+		}
+
+		printf("\t");
+
+		for ( uint8_t j = TETRIS_BOARD_WIDTH; j > 0 ; j-- ) {
+			uint8_t level = board->blue[i-1][j-1];
+			if ( level ) {
+				printf("1"); 
+			} else {
+				printf(" ");
+			}
+		}
+
 		printf("\n");
 	}
 }
 
 void *threadMoveElements(void *ptr) {
 	while ( ! isGameOver) {
-		calculateDisplayBoard(boardDisplay, board, &tetermino);
-		if ( move(board, &tetermino, moveDown) ) {
-			memcpy ( (void *) board, (void *) boardDisplay, sizeof(short) * TETRIS_BOARD_TOTAL_HEIGHT);
+		calculateDisplayBoard(&boardDisplay, &board, &tetermino);
+		if ( move(&board, &tetermino, moveDown) ) {
+			memcpy ( &board, &boardDisplay, sizeof(board_t));
 			createTetermino(&tetermino);
 		}
-		clearLines(board);
-		if ( isCollision(board, &tetermino) ) {
+		clearLines(&board);
+		if ( isCollision(&board, &tetermino) ) {
 			isGameOver = 1;
 		}
 		usleep(250 * 1000);
@@ -68,15 +102,15 @@ void *threadGetKeys(void *ptr) {
 	while ( !isGameOver) {
 		inputChar = getch();
 		if ( inputChar == 'a') {
-			move (board, &tetermino, moveLeft);
+			move (&board, &tetermino, moveLeft);
 		} else if ( inputChar == 's') {
-			move (board, &tetermino, rotateLeft);
+			move (&board, &tetermino, rotateLeft);
 		} else if ( inputChar == 'd') {
-			move (board, &tetermino, moveRight);
+			move (&board, &tetermino, moveRight);
 		} else if ( inputChar == 'w') {
-			move (board, &tetermino, rotateRight);
+			move (&board, &tetermino, rotateRight);
 		} else if ( inputChar == ' ') {
-			move (board, &tetermino, moveDrop);
+			move (&board, &tetermino, moveDrop);
 		}
 	}
 	return NULL;
@@ -86,12 +120,7 @@ int main() {
 	pthread_t thread1, thread2;
 	isGameOver = 0;
 
-	//board = (uint16_t*) malloc(sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
-	//boardDisplay = (uint16_t*) malloc(sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
-//	uint16_t volatile board[TETRIS_BOARD_TOTAL_HEIGHT];
-//uint16_t volatile boardDisplay[TETRIS_BOARD_TOTAL_HEIGHT];
-
-	createBoard(board);
+	createBoard(&board);
 	createTetermino(&tetermino);
 
 	int16_t iret1 = pthread_create(&thread1, NULL, threadMoveElements, NULL);
@@ -107,14 +136,13 @@ int main() {
 	}
 
 	while(! isGameOver) {
-		printBoard(boardDisplay);
+		printBoard(&boardDisplay);
 		usleep(250 * 1000);
 	}
 
-
 	for ( uint8_t i = 0; i < TETRIS_BOARD_TOTAL_HEIGHT; i++ ) {
-		board[i] = 0xFFFF;
-		printBoard(board);
+		board.collision[i] = 0xFFFF;
+		printBoard(&board);
 		usleep(500 * 1000);
 	}
 	

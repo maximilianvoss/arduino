@@ -2,25 +2,28 @@
 #include <tetris.h>
 #include "config.h"
 
-uint16_t volatile board[TETRIS_BOARD_TOTAL_HEIGHT];
-uint16_t volatile boardDisplay[TETRIS_BOARD_TOTAL_HEIGHT];
+board_t board;
+board_t boardDisplay;
 uint8_t volatile gameOver;
 tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
 	if ( ! gameOver ) {
-		if ( move(board, &tetermino, moveDown) ) {
-			memcpy ( (void *) &board, (void *) &boardDisplay, sizeof(short) * TETRIS_BOARD_TOTAL_HEIGHT);
+		if ( move(&board, &tetermino, moveDown) ) {
+			memcpy(&board, &boardDisplay, sizeof(board_t));
 			createTetermino(&tetermino);
 		}
-		clearLines(board);
-		if ( isCollision(board, &tetermino) ) {
+		clearLines(&board);
+		if ( isCollision(&board, &tetermino) ) {
 			gameOver = 1;
 		} 
 	} else {
-		board[gameOver] = 0xFFFF;
+		memset((void *) board.red[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
+		memset((void *) board.green[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
+		memset((void *) board.blue[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
+
 		gameOver++;
-		if ( gameOver > TETRIS_BOARD_HEIGHT ) {
+		if ( gameOver > TETRIS_BOARD_HEIGHT + 1 ) {
 			gameOver = 0;
 		}
 	}
@@ -33,6 +36,8 @@ void setup() {
 	pinMode(COLUMN_DATAPIN, OUTPUT);
 	pinMode(ROW_CLOCKPIN, OUTPUT);
 	pinMode(ROW_DATAPIN, OUTPUT);
+
+	randomSeed(analogRead(0));
 
 	cli();
 	TCCR1A = 0;
@@ -47,13 +52,30 @@ void setup() {
 	initTeterminoHistory();
 }
 
-void printBoard(uint16_t volatile *board) {	
-	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT; i++ ) {
-		uint16_t line = (board[i] & (1<<(TETRIS_BOARD_WIDTH + 1) ) - 1);
-		line >>=1;
+void printBoard(board_t *board) {	
+	uint8_t red_line;
+	uint8_t green_line;
+	uint8_t blue_line;
+
+	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT + 1; i++ ) {
+		red_line = 0;
+		green_line = 0;
+		blue_line = 0;
+
+		for ( uint8_t j = 0; j < TETRIS_BOARD_WIDTH; j++ ) {
+			if ( board->red[i][j] ) {
+				red_line |= 1<<j;
+			}
+			if ( board->green[i][j] ) {
+				green_line |= 1<<j;
+			}
+			if ( board->blue[i][j] ) {
+				blue_line |= 1<<j;
+			}
+		}
 
 		digitalWrite(LATCHPIN, 0);
-		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, line);
+		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, blue_line);
 		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
 		digitalWrite(LATCHPIN, 1);
 	}
@@ -61,16 +83,16 @@ void printBoard(uint16_t volatile *board) {
 
 void loop() {
 	gameOver = 0;
-	createBoard(board);
+	createBoard(&board);
 	createTetermino(&tetermino);
 
 	while(! gameOver) {
-		calculateDisplayBoard(boardDisplay, board, &tetermino);
-		printBoard(boardDisplay);	
+		calculateDisplayBoard(&boardDisplay, &board, &tetermino);
+		printBoard(&boardDisplay);	
 	} 
 
 	while (gameOver) {
-		printBoard(board);
+		printBoard(&board);
 	}
 }
 
