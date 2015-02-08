@@ -12,13 +12,13 @@
 #define TETRIS_BOARD_TOTAL_HEIGHT (TETRIS_BOARD_HEIGHT + HEAD + 1)
 
 #define COLOR_SETS { \
-	{255, 128, 7}, \
-	{255, 127, 6}, \
-	{255, 126, 5}, \
-	{255, 125, 4}, \
-	{255, 124, 3}, \
-	{255, 123, 2}, \
-	{255, 122, 1} }
+	{0xFF, 0xFF, 0xFF}, \
+	{0xFF, 0xFF, 0xFF}, \
+	{0xFF, 0xFF, 0xFF}, \
+	{0xFF, 0xFF, 0x00}, \
+	{0xFF, 0xFF, 0xFF}, \
+	{0xFF, 0x00, 0xFF}, \
+	{0xFF, 0x00, 0x00} }
 
 enum teterminoEnum { i, j, l, o, t, s, z };
 enum posEnum { up, left, down, right };
