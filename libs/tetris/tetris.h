@@ -23,6 +23,10 @@ typedef struct {
 	uint16_t data[TETRIS_BOARD_TOTAL_HEIGHT];
 } tetermino_t;
 
+typedef struct {
+	uint16_t collision[TETRIS_BOARD_TOTAL_HEIGHT];
+} board_t;
+
 #include "tetermino.h"
 #include "collision.h"
 #include "move.h"
