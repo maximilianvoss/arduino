@@ -74,8 +74,12 @@ void printBoard(board_t *board) {
 			}
 		}
 
+		// temporary till all colors are set
+
+		red_line |= green_line | blue_line;
+
 		digitalWrite(LATCHPIN, 0);
-		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, blue_line);
+		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, red_line);
 		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
 		digitalWrite(LATCHPIN, 1);
 	}
