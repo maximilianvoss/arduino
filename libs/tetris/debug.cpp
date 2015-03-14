@@ -3,6 +3,7 @@
 #ifdef PC_DEBUG
 
 uint8_t volatile isGameOver;
+uint16_t volatile score;
 board_t board;
 board_t boardDisplay;
 
@@ -29,7 +30,8 @@ char getch() {
 }
 
 void printBoard(board_t *board) {
-	for ( uint8_t i = 0; i < 25 - TETRIS_BOARD_TOTAL_HEIGHT + HEAD; i++ ) {
+	printf("Score: %d", score);
+	for ( uint8_t i = 1; i < 25 - TETRIS_BOARD_TOTAL_HEIGHT + HEAD; i++ ) {
 		printf("\n");
 	}
 
@@ -87,7 +89,7 @@ void *threadMoveElements(void *ptr) {
 			memcpy ( &board, &boardDisplay, sizeof(board_t));
 			createTetermino(&tetermino);
 		}
-		clearLines(&board);
+		score += clearLines(&board);
 		if ( isCollision(&board, &tetermino) ) {
 			isGameOver = 1;
 		}
@@ -119,6 +121,7 @@ void *threadGetKeys(void *ptr) {
 int main() {
 	pthread_t thread1, thread2;
 	isGameOver = 0;
+	score = 0;
 
 	createBoard(&board);
 	createTetermino(&tetermino);
