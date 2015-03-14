@@ -1,25 +1,16 @@
-# C Compiler
-CC=avr-gcc
-CFLAGS=-c -g -Os -w -Wall -Wl,--gc-sections -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I variants/standard -I .
+DEBUG=Makefile-DEBUG
+ARDUINO=Makefile-ARDUINO
 
-# Archive
-AR=avr-ar
-ARFLAGS=-rcs
+all: arduino
 
-# Sources
-CSOURCES=$(wildcard *.c)
-OBJECTS=$(CSOURCES:.c=.o)
-ARCHIVE=libtetris.a
+arduino:
+	$(MAKE) -f $(DEBUG) clean
+	$(MAKE) -f $(ARDUINO) clean all
 
-all: $(ARCHIVE)
-
-$(ARCHIVE): $(OBJECTS)
-	$(AR) $(ARFLAGS) $@ $(OBJECTS)
-
-.c.o:
-	$(CC) $(CFLAGS) $< -o $@
+debug:
+	$(MAKE) -f $(ARDUINO) clean
+	$(MAKE) -f $(DEBUG) clean all
 
 clean:
-	rm -f $(ARCHIVE)
-	rm -f $(CSOURCES:.c=.o)
-
+	$(MAKE) -f $(DEBUG) clean
+	$(MAKE) -f $(ARDUINO) clean
