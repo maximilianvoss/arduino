@@ -44,6 +44,7 @@ typedef struct {
 #include "tetermino.h"
 #include "collision.h"
 #include "move.h"
+#include "intelligence.h"
 
 #ifdef __cplusplus
 extern "C" {

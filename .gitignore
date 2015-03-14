@@ -1,10 +1,5 @@
-
 *.o
-
-tetris
-
 *.a
-
 *.elf
-
 *.hex
+lib/tetris/tetris
