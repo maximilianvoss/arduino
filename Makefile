@@ -41,7 +41,7 @@ ifeq ($(SERIAL_BAUDRATE),)
 	SERIAL_BAUDRATE=115200
 endif
 
-all: build upload
+all: all-clean build
 
 build: $(BUILD-LIBRARY) size 
 
