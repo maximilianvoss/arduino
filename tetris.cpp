@@ -1,6 +1,12 @@
 #include <Arduino.h>
+#include <PS3BT.h>
+#include <usbhub.h>
 #include <tetris.h>
 #include "config.h"
+
+USB Usb;
+BTD Btd(&Usb);
+PS3BT PS3(&Btd);
 
 board_t board;
 board_t boardDisplay;
@@ -38,6 +44,12 @@ void setup() {
 	pinMode(ROW_DATAPIN, OUTPUT);
 
 	randomSeed(analogRead(0));
+
+	if (Usb.Init() == -1) {
+		Serial.print(F("\r\nOSC did not start"));
+    	while (1);
+	}
+	Serial.print(F("\r\nPS3 Bluetooth Library Started"));
 
 	cli();
 	TCCR1A = 0;
@@ -91,6 +103,7 @@ void loop() {
 	createTetermino(&tetermino);
 
 	while(! gameOver) {
+		Usb.Task();
 		calculateDisplayBoard(&boardDisplay, &board, &tetermino);
 		printBoard(&boardDisplay);	
 	} 
