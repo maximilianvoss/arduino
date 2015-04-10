@@ -1,4 +1,4 @@
-DIRS=arduino tetris
+DIRS=arduino USB_Host_Shield_2.0 tetris 
 BUILD-DIRS=$(DIRS:%=build-%)
 CLEAN-DIRS=$(DIRS:%=clean-%)
 
