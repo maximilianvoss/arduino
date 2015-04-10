@@ -16,7 +16,7 @@ CXXSOURCES=$(wildcard *.cpp)
 OBJECTS=$(CSOURCES:.c=.o) $(CXXSOURCES:.cpp=.o)
 ARCHIVE=libarduino.a
 
-all: $(ARCHIVE)
+all: $(ARCHIVE) SPI
 
 $(ARCHIVE): $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $(OBJECTS)
@@ -31,4 +31,10 @@ clean:
 	rm -f $(ARCHIVE)
 	rm -f $(CSOURCES:.c=.o)
 	rm -f $(CXXSOURCES:.cpp=.o)
+	$(MAKE) -C SPI clean
 
+SPI:
+	$(MAKE) -C SPI
+
+.PHONY: subdirs SPI
+.PHONY: clean all
