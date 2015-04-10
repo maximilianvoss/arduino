@@ -7,7 +7,7 @@ CXX=avr-g++
 CXXFLAGS=-c -g -Os -Wall -w -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=158 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I libs/arduino -I libs/tetris -I libs/arduino/variants/standard -I .
 
 # Linking
-LDFLAGS=-L libs/arduino -L libs/tetris -larduino -ltetris
+LDFLAGS=-L libs/arduino -L libs/arduino/SPI -L libs/USB_Host_Shield_2.0 -L libs/tetris -larduino -lspi -lhostshield -ltetris
 ALLFLAGS=-w -Os -Wl,--gc-sections -mmcu=atmega328p
 
 # AVR Object
