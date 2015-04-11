@@ -97,19 +97,49 @@ void printBoard(board_t *board) {
 	}
 }
 
+void keyAction() {
+	Usb.Task();
+	if ( PS3.getButtonClick(PS) ) {
+		gameOver = 1;
+		PS3.disconnect();
+	}
+	if ( PS3.getButtonClick(CIRCLE) ) {
+		move(&board, &tetermino, rotateLeft);
+	}
+	if ( PS3.getButtonClick(CROSS) ) {
+		move(&board, &tetermino, rotateRight);
+	}
+	if ( PS3.getButtonClick(UP) ) {
+		move(&board, &tetermino, moveDrop);
+	}
+	if ( PS3.getButtonClick(RIGHT) ) {
+		move(&board, &tetermino, moveRight);
+	}
+	if ( PS3.getButtonClick(DOWN) ) {
+		move(&board, &tetermino, moveDown);
+	}
+	if ( PS3.getButtonClick(LEFT) ) {
+		move(&board, &tetermino, moveLeft);
+	}	
+}
+
 void loop() {
-	gameOver = 0;
-	createBoard(&board);
-	createTetermino(&tetermino);
+	Usb.Task();
 
-	while(! gameOver) {
-		Usb.Task();
-		calculateDisplayBoard(&boardDisplay, &board, &tetermino);
-		printBoard(&boardDisplay);	
-	} 
+	if (PS3.PS3Connected || PS3.PS3NavigationConnected) {
+		gameOver = 0;
+		createBoard(&board);
+		createTetermino(&tetermino);
 
-	while (gameOver) {
-		printBoard(&board);
+		while(! gameOver) {
+			keyAction();
+			calculateDisplayBoard(&boardDisplay, &board, &tetermino);
+			printBoard(&boardDisplay);	
+		} 
+
+		while (gameOver) {
+			printBoard(&board);
+		}
 	}
 }
 
