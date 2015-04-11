@@ -5,8 +5,8 @@
 #include "config.h"
 
 USB Usb;
-BTD Btd(&Usb);
-PS3BT PS3(&Btd);
+BTD BluetoothDongle(&Usb);
+PS3BT PS3(&BluetoothDongle, BLUETOOTH_MAC_ADDRESS);
 
 board_t board;
 board_t boardDisplay;
