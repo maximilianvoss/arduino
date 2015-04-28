@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 void calculateStack(board_t *board, uint8_t *stack);
+uint8_t calculateRanking(uint8_t *stack);
 
 #ifdef __cplusplus
 }
