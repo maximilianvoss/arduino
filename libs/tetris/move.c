@@ -36,8 +36,9 @@ uint8_t move(board_t *board, tetermino_t *tetermino, enum moveDirectionEnum dire
 		}
 		createTeterminoData(&teterminoFuture);
 	} else if ( direction == moveDrop ) {
-		for ( i = tetermino->centerPosY; i > 0; i-- ) {
-			teterminoFuture.centerPosY = i;
+
+		while ( teterminoFuture.centerPosY >= 0 ) {
+			teterminoFuture.centerPosY--;
 			createTeterminoData(&teterminoFuture);
 			if ( isCollision(board, &teterminoFuture) ) {
 				break;
