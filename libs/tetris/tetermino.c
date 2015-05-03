@@ -127,6 +127,104 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 }
 
+uint8_t calculateRotations(tetermino_t *tetermino) {
+	if ( tetermino->type == i ) { 
+		return 2;
+	}  
+	if ( tetermino->type == j ) { 
+		return 4;
+	}  
+	if ( tetermino->type == l ) {
+		return 4;
+	}  
+	if ( tetermino->type == o ) { 
+		return 1;
+	}  
+	if ( tetermino->type == t ) {
+		return 4;
+	}  
+	if ( tetermino->type == s ) { 
+		return 2;
+	}  
+	if ( tetermino->type == z ) { 
+		return 2;
+	}
+	return 0;
+}
+
+void calculateConstraints(tetermino_t *tetermino, uint8_t *start, uint8_t *stop ) {
+	if ( tetermino->type == i ) {
+		if ( tetermino->pos == up || tetermino->pos == down ) {
+			*start = 1;
+			*stop = TETRIS_BOARD_WIDTH;
+		} else if ( tetermino->pos == left || tetermino->pos == right ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		}
+	} else if ( tetermino->type == j ) {
+		if ( tetermino->pos == up ) {
+			*start = 1;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == left ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == down ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH;
+		} else if ( tetermino->pos == right ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		}
+	} else if ( tetermino->type == l ) {
+		if ( tetermino->pos == up ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH;
+		} else if ( tetermino->pos == left ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == down ) {
+			*start = 1;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == right ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		}
+	} else if ( tetermino->type == o ) {
+		*start = 1;
+		*stop = TETRIS_BOARD_WIDTH - 1;
+	} else if ( tetermino->type == t ) {
+		if ( tetermino->pos == up ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == left ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH;
+		} else if ( tetermino->pos == down ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == right ) {
+			*start = 1;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		}
+	} else if ( tetermino->type == s ) {
+		if ( tetermino->pos == up || tetermino->pos == down ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == left || tetermino->pos == right ) {
+			*start = 1;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		}
+	} else if ( tetermino->type == z ) {
+		if ( tetermino->pos == up || tetermino->pos == down ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH - 1;
+		} else if ( tetermino->pos == left || tetermino->pos == right ) {
+			*start = 2;
+			*stop = TETRIS_BOARD_WIDTH;
+		}
+	}
+}
+
 void initTeterminoHistory() {
 	uint8_t i;
 	for ( i = 0; i < TETERMINO_CREATION_HISTORY; i++ ) {
@@ -151,6 +249,7 @@ uint8_t checkTeterminoHistory(uint8_t value) {
 uint8_t calculateNewTetermino() {
 	uint8_t i;
 	uint8_t type;
+
 	type = rand() % 7;
 	while ( checkTeterminoHistory(type)) {
 		type = rand() % 7;
