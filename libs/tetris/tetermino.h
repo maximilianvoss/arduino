@@ -12,6 +12,8 @@ extern "C" {
 
 void initTeterminoHistory();
 void createTeterminoData(tetermino_t *tetermino);
+uint8_t calculateRotations(tetermino_t *tetermino);
+void calculateConstraints(tetermino_t *tetermino, uint8_t *start, uint8_t *stop);
 uint8_t calculateNewTetermino();
 uint8_t checkTeterminoHistory(uint8_t value);
 void createTetermino(tetermino_t* tetermino);
