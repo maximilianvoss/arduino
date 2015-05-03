@@ -8,7 +8,7 @@
 
 #define HEAD 4
 #define TETRIS_BOARD_HEIGHT 8
-#define TETRIS_BOARD_WIDTH 8 
+#define TETRIS_BOARD_WIDTH 8
 #define TETRIS_BOARD_TOTAL_HEIGHT (TETRIS_BOARD_HEIGHT + HEAD + 1)
 
 #define COLOR_SETS { \
@@ -45,6 +45,10 @@ typedef struct {
 #include "collision.h"
 #include "move.h"
 #include "intelligence.h"
+
+#ifdef PC_DEBUG
+	#include "debug.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
