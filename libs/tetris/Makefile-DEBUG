@@ -1,6 +1,6 @@
 # C Compiler
 CC=gcc
-CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
+CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -DPC_DEBUG
 
 # C++ Compiler
 CXX=g++
