@@ -49,11 +49,11 @@ void ledboard_display(ledboard_t *ledboard) {
 	uint8_t green;
 	uint8_t blue;
 
-	for ( i = 0; i < 25 - LED_DISPLAY_HEIGHT; i++ ) {
+	for ( i = 0; i < 25 - LED_BOARD_HEIGHT; i++ ) {
 		printf("\n");
 	}
 
-	for ( i = LED_DISPLAY_HEIGHT; i > 0 ; i-- ) {
+	for ( i = LED_BOARD_HEIGHT; i > 0 ; i-- ) {
 		for (  j = LED_BOARD_WIDTH; j > 0 ; j-- ) {
 
 			red = ledboard->red[i-1][j-1];

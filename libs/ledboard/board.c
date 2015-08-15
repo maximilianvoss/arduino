@@ -4,9 +4,9 @@ static uint8_t led_matrix_colors[7][3] = LEDBOARD_COLOR_SETS;
 
 void ledboard_createBoard(ledboard_t *ledboard) {
 	uint8_t i;
-	memset((void *) ledboard->red, 0, sizeof(uint8_t) * LED_BOARD_TOTAL_HEIGHT * LED_BOARD_WIDTH);
-	memset((void *) ledboard->green, 0, sizeof(uint8_t) * LED_BOARD_TOTAL_HEIGHT * LED_BOARD_WIDTH);
-	memset((void *) ledboard->blue, 0, sizeof(uint8_t) * LED_BOARD_TOTAL_HEIGHT * LED_BOARD_WIDTH);
+	memset((void *) ledboard->red, 0, sizeof(uint8_t) * LED_BOARD_HEIGHT * LED_BOARD_WIDTH);
+	memset((void *) ledboard->green, 0, sizeof(uint8_t) * LED_BOARD_HEIGHT * LED_BOARD_WIDTH);
+	memset((void *) ledboard->blue, 0, sizeof(uint8_t) * LED_BOARD_HEIGHT * LED_BOARD_WIDTH);
 }
 
 void ledboard_removeLine(ledboard_t *ledboard, uint8_t pos) {
