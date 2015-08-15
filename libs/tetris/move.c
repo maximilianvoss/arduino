@@ -1,7 +1,7 @@
 #include "move.h"
 
 
-uint8_t tetris_move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
+uint8_t tetris_move(tetrisboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
 	uint8_t i;
 	tetermino_t teterminoFuture;
 	memcpy(&teterminoFuture, tetermino, sizeof(tetermino_t));

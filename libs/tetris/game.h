@@ -7,9 +7,15 @@
 extern "C" {
 #endif
 
-void tetris_calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
-uint8_t tetris_clearLines(ledboard_t *board);
-void tetris_setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y);
+void tetris_createBoard(tetrisboard_t *board);
+void tetris_calculateDisplayBoard(ledboard_t *newBoard, ledboard_t *currentBoard, tetermino_t *tetermino);
+void tetris_merge(tetrisboard_t *newBoard, tetrisboard_t *currentBoard, tetermino_t *tetermino);
+uint8_t tetris_clearLines(tetrisboard_t *board, ledboard_t *ledBoard);
+void tetris_removeLine(tetrisboard_t *board, uint8_t pos);
+
+#ifdef PC_DEBUG
+	void tetris_displayCollisions(tetrisboard_t *board);
+#endif
 
 #ifdef __cplusplus
 }

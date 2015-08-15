@@ -8,8 +8,8 @@
 #include <ledboard.h>
 
 #define HEAD 4
-#define TETRIS_BOARD_HEIGHT LED_BOARD_HEIGHT
-#define TETRIS_BOARD_WIDTH LED_BOARD_WIDTH
+#define TETRIS_BOARD_HEIGHT 8
+#define TETRIS_BOARD_WIDTH 8
 #define TETRIS_BOARD_TOTAL_HEIGHT (TETRIS_BOARD_HEIGHT + HEAD + 1)
 
 enum teterminoEnum { i, j, l, o, t, s, z };
@@ -26,13 +26,23 @@ typedef struct {
 } tetermino_t;
 
 typedef struct {
-	void (* calculateDisplayBoard) (ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
+	uint16_t volatile collision[TETRIS_BOARD_TOTAL_HEIGHT];
+} tetrisboard_t;
+
+typedef struct {
+	void (* calculateDisplayBoard) (ledboard_t *newBoard, ledboard_t *currentBoard, tetermino_t *tetermino);
+	void (* merge) (tetrisboard_t *newBoard, tetrisboard_t *currentBoard, tetermino_t *tetermino);
 	void (* createTetermino) (tetermino_t* tetermino);
-	uint8_t (* move) (ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
-	uint8_t (* clearLines) (ledboard_t *board);
-	void (* calculateMove) (ledboard_t *board, tetermino_t *tetermino);
-	uint8_t (* isCollision) (ledboard_t *board, tetermino_t *tetermino);
+	uint8_t (* move) (tetrisboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
+	uint8_t (* clearLines) (tetrisboard_t *board, ledboard_t *ledBoard);
+	void (* calculateMove) (tetrisboard_t *board, tetermino_t *tetermino);
+	uint8_t (* isCollision) (tetrisboard_t *board, tetermino_t *tetermino);
 	void (* initTeterminoHistory) (void);
+	void (* createBoard ) (tetrisboard_t *board);
+
+	#ifdef PC_DEBUG
+		void (* displayCollisions) (tetrisboard_t *board);
+	#endif
 } tetris_library_t;
 
 #include "game.h"
@@ -46,6 +56,7 @@ extern "C" {
 #endif
 
 extern const tetris_library_t Tetris;
+void tetris_init();
 
 #ifdef __cplusplus
 }

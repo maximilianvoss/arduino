@@ -15,11 +15,11 @@ typedef struct {
 	enum posEnum pos;
 } rating_t;
 
-void tetris_calculateStack(ledboard_t *board, uint8_t *stack);
+void tetris_calculateStack(tetrisboard_t *board, uint8_t *stack);
 uint8_t tetris_calculateRanking(uint8_t *stack);
-uint8_t tetris_calculateHoles(ledboard_t *board);
-void tetris_calculateMove(ledboard_t *board, tetermino_t *tetermino);
-rating_t tetris_calculateRating(ledboard_t *board, tetermino_t *tetermino);
+uint8_t tetris_calculateHoles(tetrisboard_t *board);
+void tetris_calculateMove(tetrisboard_t *board, tetermino_t *tetermino);
+rating_t tetris_calculateRating(tetrisboard_t *board, tetermino_t *tetermino);
 uint8_t tetris_isBetterRating(rating_t *bestRating, rating_t *currentRating);
 
 #ifdef __cplusplus

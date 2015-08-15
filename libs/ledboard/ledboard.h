@@ -8,7 +8,6 @@
 #include "config.h"
 
 typedef struct {
-	uint16_t volatile collision[LED_BOARD_TOTAL_HEIGHT];
 	uint8_t volatile red[LED_BOARD_TOTAL_HEIGHT][LED_BOARD_WIDTH];
 	uint8_t volatile green[LED_BOARD_TOTAL_HEIGHT][LED_BOARD_WIDTH];
 	uint8_t volatile blue[LED_BOARD_TOTAL_HEIGHT][LED_BOARD_WIDTH];

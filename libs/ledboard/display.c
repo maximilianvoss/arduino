@@ -45,14 +45,22 @@ void ledboard_display(ledboard_t *ledboard) {
 	uint8_t i;
 	uint8_t j;
 	uint8_t level;
+	uint8_t red;
+	uint8_t green;
+	uint8_t blue;
 
 	for ( i = 0; i < 25 - LED_DISPLAY_HEIGHT; i++ ) {
 		printf("\n");
 	}
 
 	for ( i = LED_DISPLAY_HEIGHT; i > 0 ; i-- ) {
-		for (  j = LED_BOARD_WIDTH + 2; j > 0 ; j-- ) {
-			level = ( ledboard->collision[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
+		for (  j = LED_BOARD_WIDTH; j > 0 ; j-- ) {
+
+			red = ledboard->red[i-1][j-1];
+			green = ledboard->green[i-1][j-1];
+			blue = ledboard->blue[i-1][j-1];
+
+			level = ( red | green | blue ) ? 1 : 0;
 			if ( level ) {
 				printf("1"); 
 			} else {
@@ -64,8 +72,8 @@ void ledboard_display(ledboard_t *ledboard) {
 			printf("\t");
 
 			for ( j = LED_BOARD_WIDTH; j > 0 ; j-- ) {
-				level = ledboard->red[i-1][j-1];
-				if ( level ) {
+				red = ledboard->red[i-1][j-1];
+				if ( red ) {
 					printf("1"); 
 				} else {
 					printf(" ");
@@ -75,8 +83,8 @@ void ledboard_display(ledboard_t *ledboard) {
 			printf("\t");
 
 			for ( j = LED_BOARD_WIDTH; j > 0 ; j-- ) {
-				level = ledboard->green[i-1][j-1];
-				if ( level ) {
+				green = ledboard->green[i-1][j-1];
+				if ( green ) {
 					printf("1"); 
 				} else {
 					printf(" ");
@@ -86,8 +94,8 @@ void ledboard_display(ledboard_t *ledboard) {
 			printf("\t");
 
 			for ( j = LED_BOARD_WIDTH; j > 0 ; j-- ) {
-				level = ledboard->blue[i-1][j-1];
-				if ( level ) {
+				blue = ledboard->blue[i-1][j-1];
+				if ( blue ) {
 					printf("1"); 
 				} else {
 					printf(" ");

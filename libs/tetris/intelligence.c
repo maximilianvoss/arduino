@@ -1,7 +1,7 @@
 #include "intelligence.h"
 
-void tetris_calculateMove(ledboard_t *board, tetermino_t *tetermino) {
-	ledboard_t boardCalculation;
+void tetris_calculateMove(tetrisboard_t *board, tetermino_t *tetermino) {
+	tetrisboard_t boardCalculation;
 	rating_t bestRating;
 	rating_t currentRating;
 	uint8_t start;
@@ -27,7 +27,7 @@ void tetris_calculateMove(ledboard_t *board, tetermino_t *tetermino) {
 
 			if ( ! tetris_isCollision(board, tetermino ) ) {
 				tetris_move (board, tetermino, moveDrop);
-				tetris_calculateDisplayBoard(&boardCalculation, board, tetermino);
+				tetris_merge(&boardCalculation, board, tetermino);
 
 				currentRating = tetris_calculateRating(&boardCalculation, tetermino);
 
@@ -78,20 +78,20 @@ uint8_t tetris_isBetterRating(rating_t *bestRating, rating_t *currentRating) {
 	}
 }
 
-rating_t tetris_calculateRating(ledboard_t *board, tetermino_t *tetermino) {
+rating_t tetris_calculateRating(tetrisboard_t *board, tetermino_t *tetermino) {
 	rating_t rating;
 
 	uint8_t stack[TETRIS_BOARD_WIDTH];
 	tetris_calculateStack(board, stack);
 
-	rating.clearedLines = tetris_clearLines(board);
+	rating.clearedLines = tetris_clearLines(board, NULL);
 	rating.holes = tetris_calculateHoles(board);
 	rating.ranking = tetris_calculateRanking(stack);
 
 	return rating;
 }
 
-void tetris_calculateStack(ledboard_t *board, uint8_t *stack) {
+void tetris_calculateStack(tetrisboard_t *board, uint8_t *stack) {
 	uint8_t i;
 	uint8_t j;
 
@@ -121,7 +121,7 @@ uint8_t tetris_calculateRanking(uint8_t *stack) {
 	return result;
 }
 
-uint8_t tetris_calculateHoles(ledboard_t *board) {
+uint8_t tetris_calculateHoles(tetrisboard_t *board) {
 	uint8_t i;
 	uint8_t j;
 	uint8_t holeCount = 0;

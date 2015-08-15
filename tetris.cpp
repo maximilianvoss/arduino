@@ -9,29 +9,50 @@ USB Usb;
 BTD BluetoothDongle(&Usb);
 PS3BT PS3(&BluetoothDongle, BLUETOOTH_MAC_ADDRESS);
 
-ledboard_t board;
-ledboard_t boardDisplay;
-uint8_t volatile gameOver;
+uint8_t volatile isGameOver;
+uint8_t volatile isStarted;
+uint16_t volatile score;
+tetrisboard_t currentBoard;
+tetrisboard_t newBoard;
+ledboard_t currentLedBoard;
+ledboard_t newLedBoard;
+
 tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
-	if ( ! gameOver ) {
-		if ( Tetris.move(&board, &tetermino, moveDown) ) {
-			memcpy(&board, &boardDisplay, sizeof(ledboard_t));
+	uint8_t hitGround;
+
+	if ( ! isStarted ) {
+		return;
+	}
+
+	if ( ! isGameOver ) {
+		hitGround = Tetris.move(&currentBoard, &tetermino, moveDown);
+		Tetris.merge(&newBoard, &currentBoard, &tetermino);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
+
+		if ( hitGround ) {
+			Tetris.merge(&currentBoard, NULL, &tetermino);
+			memcpy(&currentLedBoard, &newLedBoard, sizeof(ledboard_t));
 			Tetris.createTetermino(&tetermino);
 		}
-		Tetris.clearLines(&board);
-		if ( Tetris.isCollision(&board, &tetermino) ) {
-			gameOver = 1;
-		} 
-	} else {
-		memset((void *) board.red[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
-		memset((void *) board.green[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
-		memset((void *) board.blue[gameOver], 0xFF, sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
 
-		gameOver++;
-		if ( gameOver > TETRIS_BOARD_HEIGHT + 1 ) {
-			gameOver = 0;
+		score += Tetris.clearLines(&currentBoard, &currentLedBoard);
+		if ( hitGround ) {
+			Tetris.calculateMove(&currentBoard, &tetermino);
+		}
+		if ( Tetris.isCollision(&currentBoard, &tetermino) ) {
+			isGameOver = 1;
+		}
+	} else {
+		for ( uint8_t j = 0; j < TETRIS_BOARD_WIDTH; j++ ) {
+			currentLedBoard.red[isGameOver][j] = 1;
+			currentLedBoard.blue[isGameOver][j] = 0;
+			currentLedBoard.green[isGameOver][j] = 0;
+			isGameOver++;
+		}
+		if ( isGameOver > TETRIS_BOARD_HEIGHT ) {
+			isGameOver = 0;
 		}
 	}
 }
@@ -52,6 +73,8 @@ void setup() {
 	}
 	Serial.print(F("\r\nPS3 Bluetooth Library Started"));
 
+	isStarted = 0;
+
 	cli();
 	TCCR1A = 0;
 	TCCR1B = 0;
@@ -63,50 +86,60 @@ void setup() {
 	sei();
 
 	Tetris.initTeterminoHistory();
+
+	LEDBoard.createBoard(&currentLedBoard);
+	LEDBoard.createBoard(&newLedBoard);
+
+	Tetris.createBoard(&currentBoard);
+	Tetris.createBoard(&newBoard);
+
+	Tetris.createTetermino(&tetermino);
+	Tetris.calculateMove(&currentBoard, &tetermino);
+
+	isGameOver = 0;
+	score = 0;
 }
 
 void keyAction() {
 	Usb.Task();
 	if ( PS3.getButtonClick(PS) ) {
-		gameOver = 1;
+		isGameOver = 1;
+		isStarted = 0;
 		PS3.disconnect();
 	}
 	if ( PS3.getButtonClick(CIRCLE) ) {
-		Tetris.move(&board, &tetermino, rotateLeft);
+		Tetris.move(&currentBoard, &tetermino, rotateLeft);
 	}
 	if ( PS3.getButtonClick(CROSS) ) {
-		Tetris.move(&board, &tetermino, rotateRight);
+		Tetris.move(&currentBoard, &tetermino, rotateRight);
 	}
 	if ( PS3.getButtonClick(UP) ) {
-		Tetris.move(&board, &tetermino, moveDrop);
+		Tetris.move(&currentBoard, &tetermino, moveDrop);
 	}
 	if ( PS3.getButtonClick(RIGHT) ) {
-		Tetris.move(&board, &tetermino, moveRight);
+		Tetris.move(&currentBoard, &tetermino, moveRight);
 	}
 	if ( PS3.getButtonClick(DOWN) ) {
-		Tetris.move(&board, &tetermino, moveDown);
+		Tetris.move(&currentBoard, &tetermino, moveDown);
 	}
 	if ( PS3.getButtonClick(LEFT) ) {
-		Tetris.move(&board, &tetermino, moveLeft);
+		Tetris.move(&currentBoard, &tetermino, moveLeft);
 	}	
 }
 
 void loop() {
 	Usb.Task();
 
+	isStarted = 0;
 	if (PS3.PS3Connected || PS3.PS3NavigationConnected) {
-		gameOver = 0;
-		LEDBoard.createBoard(&board);
-		Tetris.createTetermino(&tetermino);
-
-		while(! gameOver) {
+		isStarted = 1;
+		while(! isGameOver) {
 			keyAction();
-			Tetris.calculateDisplayBoard(&boardDisplay, &board, &tetermino);
-			LEDBoard.display(&boardDisplay);	
+			LEDBoard.display(&newLedBoard);	
 		} 
 
-		while (gameOver) {
-			LEDBoard.display(&board);
+		while (isGameOver) {
+			LEDBoard.display(&currentLedBoard);
 		}
 	}
 }
