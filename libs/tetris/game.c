@@ -75,12 +75,12 @@ void tetris_displayCollisions(tetrisboard_t *board) {
 	uint8_t j;
 	uint8_t level;
 	
-	for ( i = 0; i < 25 - LED_DISPLAY_HEIGHT; i++ ) {
+	for ( i = 0; i < 25 - TETRIS_BOARD_HEIGHT; i++ ) {
 		printf("\n");
 	}
 
-	for ( i = LED_DISPLAY_HEIGHT; i > 0 ; i-- ) {
-		for (  j = LED_BOARD_WIDTH + 2; j > 0 ; j-- ) {
+	for ( i = TETRIS_BOARD_HEIGHT; i > 0 ; i-- ) {
+		for (  j = TETRIS_BOARD_WIDTH + 2; j > 0 ; j-- ) {
 			level = ( board->collision[i - 1] & 1<<(j-1) ) != 0 ? 1 : 0;
 			if ( level ) {
 				printf("1");

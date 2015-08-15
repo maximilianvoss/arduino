@@ -109,21 +109,27 @@ void keyAction() {
 	}
 	if ( PS3.getButtonClick(CIRCLE) ) {
 		Tetris.move(&currentBoard, &tetermino, rotateLeft);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}
 	if ( PS3.getButtonClick(CROSS) ) {
 		Tetris.move(&currentBoard, &tetermino, rotateRight);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}
 	if ( PS3.getButtonClick(UP) ) {
 		Tetris.move(&currentBoard, &tetermino, moveDrop);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}
 	if ( PS3.getButtonClick(RIGHT) ) {
 		Tetris.move(&currentBoard, &tetermino, moveRight);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}
 	if ( PS3.getButtonClick(DOWN) ) {
 		Tetris.move(&currentBoard, &tetermino, moveDown);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}
 	if ( PS3.getButtonClick(LEFT) ) {
 		Tetris.move(&currentBoard, &tetermino, moveLeft);
+		Tetris.calculateDisplayBoard(&newLedBoard, &currentLedBoard, &tetermino);
 	}	
 }
 
