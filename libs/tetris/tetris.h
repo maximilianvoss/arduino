@@ -25,6 +25,17 @@ typedef struct {
 	uint16_t data[TETRIS_BOARD_TOTAL_HEIGHT];
 } tetermino_t;
 
+typedef struct {
+	void (* calculateDisplayBoard) (ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
+	void (* createTetermino) (tetermino_t* tetermino);
+	uint8_t (* move) (ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
+	uint8_t (* clearLines) (ledboard_t *board);
+	void (* calculateMove) (ledboard_t *board, tetermino_t *tetermino);
+	uint8_t (* isCollision) (ledboard_t *board, tetermino_t *tetermino);
+	void (* initTeterminoHistory) (void);
+} tetris_library_t;
+
+#include "game.h"
 #include "tetermino.h"
 #include "collision.h"
 #include "move.h"
@@ -34,9 +45,7 @@ typedef struct {
 extern "C" {
 #endif
 
-void tetris_calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
-uint8_t tetris_clearLines(ledboard_t *board);
-void tetris_setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y);
+extern const tetris_library_t Tetris;
 
 #ifdef __cplusplus
 }

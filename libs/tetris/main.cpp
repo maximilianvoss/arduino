@@ -36,18 +36,18 @@ void *threadMoveElements(void *ptr) {
 	uint8_t hitGround;
 
 	while ( ! isGameOver ) {
-		tetris_calculateDisplayBoard(&boardDisplay, &board, &tetermino);
+		Tetris.calculateDisplayBoard(&boardDisplay, &board, &tetermino);
 
-		hitGround = tetris_move(&board, &tetermino, moveDown);
+		hitGround = Tetris.move(&board, &tetermino, moveDown);
 		if ( hitGround ) {
 			memcpy ( &board, &boardDisplay, sizeof(ledboard_t));
-			tetris_createTetermino(&tetermino);
+			Tetris.createTetermino(&tetermino);
 		}
-		score += tetris_clearLines(&board);
+		score += Tetris.clearLines(&board);
 		if ( hitGround ) {
-			tetris_calculateMove(&board, &tetermino);
+			Tetris.calculateMove(&board, &tetermino);
 		}
-		if ( tetris_isCollision(&board, &tetermino) ) {
+		if ( Tetris.isCollision(&board, &tetermino) ) {
 			isGameOver = 1;
 		}
 		usleep(250 * 1000);
@@ -61,15 +61,15 @@ void *threadGetKeys(void *ptr) {
 	while ( !isGameOver) {
 		inputChar = getch();
 		if ( inputChar == 'a') {
-			tetris_move (&board, &tetermino, moveLeft);
+			Tetris.move (&board, &tetermino, moveLeft);
 		} else if ( inputChar == 's') {
-			tetris_move (&board, &tetermino, rotateLeft);
+			Tetris.move (&board, &tetermino, rotateLeft);
 		} else if ( inputChar == 'd') {
-			tetris_move (&board, &tetermino, moveRight);
+			Tetris.move (&board, &tetermino, moveRight);
 		} else if ( inputChar == 'w') {
-			tetris_move (&board, &tetermino, rotateRight);
+			Tetris.move (&board, &tetermino, rotateRight);
 		} else if ( inputChar == ' ') {
-			tetris_move (&board, &tetermino, moveDrop);
+			Tetris.move (&board, &tetermino, moveDrop);
 		}
 	}
 	return NULL;
@@ -81,8 +81,8 @@ int main() {
 	score = 0;
 
 	ledboard_createBoard(&board);
-	tetris_createTetermino(&tetermino);
-	tetris_calculateMove(&board, &tetermino);
+	Tetris.createTetermino(&tetermino);
+	Tetris.calculateMove(&board, &tetermino);
 
 	int16_t iret1 = pthread_create(&thread1, NULL, threadMoveElements, NULL);
 	if(iret1) {

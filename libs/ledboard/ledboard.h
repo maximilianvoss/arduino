@@ -24,15 +24,21 @@ typedef struct {
 	{0xFF, 0x00, 0x00} }
 enum ledboard_colorset_e { cyan, blue, orange, yellow, lime, magenta, red };
 
+typedef struct {
+	void (* createBoard) (ledboard_t *ledboard);
+	void (* removeLine) (ledboard_t *ledboard, uint8_t pos);
+	void (* setColor) (ledboard_t *ledboard, uint8_t x, uint8_t y, enum ledboard_colorset_e color);
+	void (* display) (ledboard_t *board);
+} ledboard_library_t;
+
 #include "display.h"
+#include "board.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void ledboard_createBoard(ledboard_t *ledboard);
-void ledboard_removeLine(ledboard_t *ledboard, uint8_t pos);
-void ledboard_setColor(ledboard_t *ledboard, uint8_t x, uint8_t y, enum ledboard_colorset_e color);
+extern const ledboard_library_t LEDBoard;
 
 #ifdef __cplusplus
 }

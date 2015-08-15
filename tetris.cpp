@@ -16,12 +16,12 @@ tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
 	if ( ! gameOver ) {
-		if ( move(&board, &tetermino, moveDown) ) {
+		if ( Tetris.move(&board, &tetermino, moveDown) ) {
 			memcpy(&board, &boardDisplay, sizeof(ledboard_t));
-			createTetermino(&tetermino);
+			Tetris.createTetermino(&tetermino);
 		}
-		clearLines(&board);
-		if ( isCollision(&board, &tetermino) ) {
+		Tetris.clearLines(&board);
+		if ( Tetris.isCollision(&board, &tetermino) ) {
 			gameOver = 1;
 		} 
 	} else {
@@ -62,7 +62,7 @@ void setup() {
 	TIMSK1 |= (1 << OCIE1A);
 	sei();
 
-	initTeterminoHistory();
+	Tetris.initTeterminoHistory();
 }
 
 void keyAction() {
@@ -72,22 +72,22 @@ void keyAction() {
 		PS3.disconnect();
 	}
 	if ( PS3.getButtonClick(CIRCLE) ) {
-		move(&board, &tetermino, rotateLeft);
+		Tetris.move(&board, &tetermino, rotateLeft);
 	}
 	if ( PS3.getButtonClick(CROSS) ) {
-		move(&board, &tetermino, rotateRight);
+		Tetris.move(&board, &tetermino, rotateRight);
 	}
 	if ( PS3.getButtonClick(UP) ) {
-		move(&board, &tetermino, moveDrop);
+		Tetris.move(&board, &tetermino, moveDrop);
 	}
 	if ( PS3.getButtonClick(RIGHT) ) {
-		move(&board, &tetermino, moveRight);
+		Tetris.move(&board, &tetermino, moveRight);
 	}
 	if ( PS3.getButtonClick(DOWN) ) {
-		move(&board, &tetermino, moveDown);
+		Tetris.move(&board, &tetermino, moveDown);
 	}
 	if ( PS3.getButtonClick(LEFT) ) {
-		move(&board, &tetermino, moveLeft);
+		Tetris.move(&board, &tetermino, moveLeft);
 	}	
 }
 
@@ -96,17 +96,17 @@ void loop() {
 
 	if (PS3.PS3Connected || PS3.PS3NavigationConnected) {
 		gameOver = 0;
-		ledboard_createBoard(&board);
-		createTetermino(&tetermino);
+		LEDBoard.createBoard(&board);
+		Tetris.createTetermino(&tetermino);
 
 		while(! gameOver) {
 			keyAction();
-			calculateDisplayBoard(&boardDisplay, &board, &tetermino);
-			ledboard_display(&boardDisplay);	
+			Tetris.calculateDisplayBoard(&boardDisplay, &board, &tetermino);
+			LEDBoard.display(&boardDisplay);	
 		} 
 
 		while (gameOver) {
-			ledboard_display(&board);
+			LEDBoard.display(&board);
 		}
 	}
 }

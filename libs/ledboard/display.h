@@ -14,6 +14,14 @@
 
 #include "ledboard.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void ledboard_display(ledboard_t *board);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
