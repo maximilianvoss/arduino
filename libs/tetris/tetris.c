@@ -53,7 +53,8 @@ uint8_t clearLines(board_t *board) {
 
 void removeLine(board_t *board, uint8_t pos) {
 	uint8_t i;
-	for ( i = pos; i < TETRIS_BOARD_HEIGHT - 1; i++ ) {
+	
+	for ( i = pos; i < TETRIS_BOARD_TOTAL_HEIGHT - 1; i++ ) {
 		board->collision[i] = board->collision[i+1];
 		memcpy((void *) board->red[i], (void *) board->red[i+1], sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
 		memcpy((void *) board->green[i], (void *) board->green[i+1], sizeof(uint8_t) * TETRIS_BOARD_WIDTH);
