@@ -127,13 +127,16 @@ uint8_t calculateHoles(board_t *board) {
 	uint8_t holeCount = 0;
 	uint8_t current;
 	uint8_t last;
+	uint8_t hit;
 
 	for ( j = 2; j < TETRIS_BOARD_WIDTH + 2; j++ ) {
 		last = 0;
+		hit = 0;
 		for ( i = TETRIS_BOARD_HEIGHT + 1; i > 1; i-- ) {
 			current = (board->collision[i - 1] & 1<<(j-1)) != 0 ? (i - 1) : 0;
-			if ( current == 0 && last != 0 ) {
+			if ( current == 0 && (last != 0 || hit )) {
 				holeCount++;
+				hit = 1;
 			}
 			last = current;
 		}
