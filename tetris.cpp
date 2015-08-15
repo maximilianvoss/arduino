@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <PS3BT.h>
 #include <usbhub.h>
+#include <ledboard.h>
 #include <tetris.h>
 #include "config.h"
 
@@ -8,15 +9,15 @@ USB Usb;
 BTD BluetoothDongle(&Usb);
 PS3BT PS3(&BluetoothDongle, BLUETOOTH_MAC_ADDRESS);
 
-board_t board;
-board_t boardDisplay;
+ledboard_t board;
+ledboard_t boardDisplay;
 uint8_t volatile gameOver;
 tetermino_t tetermino;
 
 ISR(TIMER1_COMPA_vect) {
 	if ( ! gameOver ) {
 		if ( move(&board, &tetermino, moveDown) ) {
-			memcpy(&board, &boardDisplay, sizeof(board_t));
+			memcpy(&board, &boardDisplay, sizeof(ledboard_t));
 			createTetermino(&tetermino);
 		}
 		clearLines(&board);
@@ -64,39 +65,6 @@ void setup() {
 	initTeterminoHistory();
 }
 
-void printBoard(board_t *board) {	
-	uint8_t red_line;
-	uint8_t green_line;
-	uint8_t blue_line;
-
-	for ( uint8_t i = 1; i < TETRIS_BOARD_HEIGHT + 1; i++ ) {
-		red_line = 0;
-		green_line = 0;
-		blue_line = 0;
-
-		for ( uint8_t j = 0; j < TETRIS_BOARD_WIDTH; j++ ) {
-			if ( board->red[i][j] ) {
-				red_line |= 1<<j;
-			}
-			if ( board->green[i][j] ) {
-				green_line |= 1<<j;
-			}
-			if ( board->blue[i][j] ) {
-				blue_line |= 1<<j;
-			}
-		}
-
-		// temporary till all colors are set
-
-		red_line |= green_line | blue_line;
-
-		digitalWrite(LATCHPIN, 0);
-		shiftOut(ROW_DATAPIN, ROW_CLOCKPIN, MSBFIRST, red_line);
-		shiftOut(COLUMN_DATAPIN, COLUMN_CLOCKPIN, MSBFIRST, ~(1<<(i-1)));
-		digitalWrite(LATCHPIN, 1);
-	}
-}
-
 void keyAction() {
 	Usb.Task();
 	if ( PS3.getButtonClick(PS) ) {
@@ -128,17 +96,17 @@ void loop() {
 
 	if (PS3.PS3Connected || PS3.PS3NavigationConnected) {
 		gameOver = 0;
-		createBoard(&board);
+		ledboard_createBoard(&board);
 		createTetermino(&tetermino);
 
 		while(! gameOver) {
 			keyAction();
 			calculateDisplayBoard(&boardDisplay, &board, &tetermino);
-			printBoard(&boardDisplay);	
+			ledboard_display(&boardDisplay);	
 		} 
 
 		while (gameOver) {
-			printBoard(&board);
+			ledboard_display(&board);
 		}
 	}
 }

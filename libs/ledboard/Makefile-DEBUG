@@ -1,0 +1,33 @@
+# C Compiler
+CC=gcc
+CFLAGS=-Wall -g -w -Wl,--gc-sections -ffunction-sections -fdata-sections -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -DPC_DEBUG 
+
+# C++ Compiler
+CXX=g++
+CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
+
+# Archive
+AR=ar
+ARFLAGS=-rcs
+
+# Sources
+CSOURCES=$(wildcard *.c)
+CXXSOURCES=$(wildcard *.cpp)
+OBJECTS=$(CSOURCES:.c=.o) $(CXXSOURCES:.cpp=.o)
+ARCHIVE=libledboard-debug.a
+
+all: $(ARCHIVE)
+
+$(ARCHIVE): $(OBJECTS)
+	$(AR) $(ARFLAGS) $@ $(OBJECTS)
+
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+clean:
+	rm -f $(ARCHIVE)
+	rm -f $(CSOURCES:.c=.o)
+	rm -f $(CXXSOURCES:.cpp=.o)

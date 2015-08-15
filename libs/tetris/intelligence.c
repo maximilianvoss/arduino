@@ -1,7 +1,7 @@
 #include "intelligence.h"
 
-void calculateMove(board_t *board, tetermino_t *tetermino) {
-	board_t boardCalculation;
+void calculateMove(ledboard_t *board, tetermino_t *tetermino) {
+	ledboard_t boardCalculation;
 	rating_t bestRating;
 	rating_t currentRating;
 	uint8_t start;
@@ -78,7 +78,7 @@ uint8_t isBetterRating(rating_t *bestRating, rating_t *currentRating) {
 	}
 }
 
-rating_t calculateRating(board_t *board, tetermino_t *tetermino) {
+rating_t calculateRating(ledboard_t *board, tetermino_t *tetermino) {
 	rating_t rating;
 
 	uint8_t stack[TETRIS_BOARD_WIDTH];
@@ -91,7 +91,7 @@ rating_t calculateRating(board_t *board, tetermino_t *tetermino) {
 	return rating;
 }
 
-void calculateStack(board_t *board, uint8_t *stack) {
+void calculateStack(ledboard_t *board, uint8_t *stack) {
 	uint8_t i;
 	uint8_t j;
 
@@ -121,7 +121,7 @@ uint8_t calculateRanking(uint8_t *stack) {
 	return result;
 }
 
-uint8_t calculateHoles(board_t *board) {
+uint8_t calculateHoles(ledboard_t *board) {
 	uint8_t i;
 	uint8_t j;
 	uint8_t holeCount = 0;

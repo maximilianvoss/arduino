@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-uint8_t move(board_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
+uint8_t move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
 
 #ifdef __cplusplus
 }

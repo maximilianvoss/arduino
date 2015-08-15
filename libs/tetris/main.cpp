@@ -7,8 +7,8 @@
 
 uint8_t volatile isGameOver;
 uint16_t volatile score;
-board_t board;
-board_t boardDisplay;
+ledboard_t board;
+ledboard_t boardDisplay;
 
 tetermino_t tetermino;
 
@@ -40,7 +40,7 @@ void *threadMoveElements(void *ptr) {
 
 		hitGround = move(&board, &tetermino, moveDown);
 		if ( hitGround ) {
-			memcpy ( &board, &boardDisplay, sizeof(board_t));
+			memcpy ( &board, &boardDisplay, sizeof(ledboard_t));
 			createTetermino(&tetermino);
 		}
 		score += clearLines(&board);
@@ -80,7 +80,7 @@ int main() {
 	isGameOver = 0;
 	score = 0;
 
-	createBoard(&board);
+	ledboard_createBoard(&board);
 	createTetermino(&tetermino);
 	calculateMove(&board, &tetermino);
 
@@ -97,13 +97,13 @@ int main() {
 	}
 
 	while(! isGameOver) {
-		printBoard(&boardDisplay);
+		ledboard_display(&boardDisplay);
 		usleep(250 * 1000);
 	}
 
 	for ( uint8_t i = 0; i < TETRIS_BOARD_TOTAL_HEIGHT; i++ ) {
 		board.collision[i] = 0xFFFF;
-		printBoard(&board);
+		ledboard_display(&board);
 		usleep(500 * 1000);
 	}
 	

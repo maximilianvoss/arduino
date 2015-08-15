@@ -1,14 +1,14 @@
 # C Compiler
 CC=gcc
-CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -DPC_DEBUG
+CFLAGS=-Wall -c -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -DPC_DEBUG -I../ledboard
 
 # C++ Compiler
 CXX=g++
-CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG
+CXXFLAGS=-Wall -c -std=c++0x -DPC_DEBUG -I../ledboard
 
 # Linker
 LDFLAGS=
-ALLFLAGS=-Wall -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes
+ALLFLAGS=-Wall -funsigned-char -fpack-struct -fshort-enums -Wall -Wstrict-prototypes -L../ledboard -lledboard-debug
 
 # Sources
 CSOURCES=$(wildcard *.c)
