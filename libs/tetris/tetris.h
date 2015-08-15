@@ -1,5 +1,5 @@
-#ifndef __TETRIS_H__
-#define __TETRIS_H__
+#ifndef __TETRIS_TETRIS_H__
+#define __TETRIS_TETRIS_H__
 
 #include <stdint.h>
 #include <stdio.h>
@@ -34,9 +34,9 @@ typedef struct {
 extern "C" {
 #endif
 
-void calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
-uint8_t clearLines(ledboard_t *board);
-void setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y);
+void tetris_calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino);
+uint8_t tetris_clearLines(ledboard_t *board);
+void tetris_setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y);
 
 #ifdef __cplusplus
 }

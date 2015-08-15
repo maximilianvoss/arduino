@@ -1,6 +1,6 @@
 #include "intelligence.h"
 
-void calculateMove(ledboard_t *board, tetermino_t *tetermino) {
+void tetris_calculateMove(ledboard_t *board, tetermino_t *tetermino) {
 	ledboard_t boardCalculation;
 	rating_t bestRating;
 	rating_t currentRating;
@@ -14,24 +14,24 @@ void calculateMove(ledboard_t *board, tetermino_t *tetermino) {
 	bestRating.holes = 0x7F;
 	bestRating.ranking = 0x7F;
 
-	rotations = calculateRotations(tetermino);
+	rotations = tetris_calculateRotations(tetermino);
 	for ( i = 0; i < rotations; i++ ) {
 		tetermino->pos = i;
-		calculateConstraints(tetermino, &start, &stop);
+		tetris_calculateConstraints(tetermino, &start, &stop);
 
 		for ( j = start; j <= stop; j++ ) {
 			tetermino->centerPosY = TETRIS_BOARD_TOTAL_HEIGHT - 3;
 			tetermino->centerPosX = j;
 
-			createTeterminoData(tetermino);
+			tetris_createTeterminoData(tetermino);
 
-			if ( ! isCollision(board, tetermino ) ) {
-				move (board, tetermino, moveDrop);
-				calculateDisplayBoard(&boardCalculation, board, tetermino);
+			if ( ! tetris_isCollision(board, tetermino ) ) {
+				tetris_move (board, tetermino, moveDrop);
+				tetris_calculateDisplayBoard(&boardCalculation, board, tetermino);
 
-				currentRating = calculateRating(&boardCalculation, tetermino);
+				currentRating = tetris_calculateRating(&boardCalculation, tetermino);
 
-				if ( isBetterRating(&bestRating, &currentRating ) ) {
+				if ( tetris_isBetterRating(&bestRating, &currentRating ) ) {
 					bestRating.clearedLines = currentRating.clearedLines;
 					bestRating.holes = currentRating.holes;
 					bestRating.ranking = currentRating.ranking;
@@ -46,10 +46,10 @@ void calculateMove(ledboard_t *board, tetermino_t *tetermino) {
 	tetermino->centerPosY = TETRIS_BOARD_TOTAL_HEIGHT - 3;
 	tetermino->centerPosX = bestRating.posX;
 	tetermino->pos = bestRating.pos;
-	createTeterminoData(tetermino);
+	tetris_createTeterminoData(tetermino);
 }
 
-uint8_t isBetterRating(rating_t *bestRating, rating_t *currentRating) {
+uint8_t tetris_isBetterRating(rating_t *bestRating, rating_t *currentRating) {
 
 	int8_t diffClearedLines = bestRating->clearedLines - currentRating->clearedLines;
 	int8_t diffHoles = bestRating->holes - currentRating->holes;
@@ -78,20 +78,20 @@ uint8_t isBetterRating(rating_t *bestRating, rating_t *currentRating) {
 	}
 }
 
-rating_t calculateRating(ledboard_t *board, tetermino_t *tetermino) {
+rating_t tetris_calculateRating(ledboard_t *board, tetermino_t *tetermino) {
 	rating_t rating;
 
 	uint8_t stack[TETRIS_BOARD_WIDTH];
-	calculateStack(board, stack);
+	tetris_calculateStack(board, stack);
 
-	rating.clearedLines = clearLines(board);
-	rating.holes = calculateHoles(board);
-	rating.ranking = calculateRanking(stack);
+	rating.clearedLines = tetris_clearLines(board);
+	rating.holes = tetris_calculateHoles(board);
+	rating.ranking = tetris_calculateRanking(stack);
 
 	return rating;
 }
 
-void calculateStack(ledboard_t *board, uint8_t *stack) {
+void tetris_calculateStack(ledboard_t *board, uint8_t *stack) {
 	uint8_t i;
 	uint8_t j;
 
@@ -106,7 +106,7 @@ void calculateStack(ledboard_t *board, uint8_t *stack) {
 	}
 }
 
-uint8_t calculateRanking(uint8_t *stack) {
+uint8_t tetris_calculateRanking(uint8_t *stack) {
 	uint8_t i;
 	uint8_t result = 0;
 	int8_t diff;
@@ -121,7 +121,7 @@ uint8_t calculateRanking(uint8_t *stack) {
 	return result;
 }
 
-uint8_t calculateHoles(ledboard_t *board) {
+uint8_t tetris_calculateHoles(ledboard_t *board) {
 	uint8_t i;
 	uint8_t j;
 	uint8_t holeCount = 0;

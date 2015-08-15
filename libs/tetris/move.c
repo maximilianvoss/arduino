@@ -1,7 +1,7 @@
 #include "move.h"
 
 
-uint8_t move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
+uint8_t tetris_move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction) {
 	uint8_t i;
 	tetermino_t teterminoFuture;
 	memcpy(&teterminoFuture, tetermino, sizeof(tetermino_t));
@@ -28,27 +28,27 @@ uint8_t move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum d
 		} else {
 			teterminoFuture.pos--;
 		}
-		createTeterminoData(&teterminoFuture);
+		tetris_createTeterminoData(&teterminoFuture);
 	} else if ( direction == rotateRight ) {
 		teterminoFuture.pos++;
 		if ( teterminoFuture.pos > 3 ) {
 			teterminoFuture.pos = 0;
 		}
-		createTeterminoData(&teterminoFuture);
+		tetris_createTeterminoData(&teterminoFuture);
 	} else if ( direction == moveDrop ) {
 
 		while ( teterminoFuture.centerPosY >= 0 ) {
 			teterminoFuture.centerPosY--;
-			createTeterminoData(&teterminoFuture);
-			if ( isCollision(board, &teterminoFuture) ) {
+			tetris_createTeterminoData(&teterminoFuture);
+			if ( tetris_isCollision(board, &teterminoFuture) ) {
 				break;
 			}
 		}
 		teterminoFuture.centerPosY++;
-		createTeterminoData(&teterminoFuture);
+		tetris_createTeterminoData(&teterminoFuture);
 	}
 
-	if ( ! isCollision(board, &teterminoFuture) )	{
+	if ( ! tetris_isCollision(board, &teterminoFuture) )	{
 		memcpy (tetermino, &teterminoFuture, sizeof(tetermino_t));
 	} else if ( direction == moveDown ) {
 		return 1;

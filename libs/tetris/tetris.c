@@ -1,6 +1,6 @@
 #include "tetris.h"
 
-void calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino) {
+void tetris_calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermino_t* tetermino) {
 	uint8_t i;
 	uint8_t j;
 
@@ -10,18 +10,18 @@ void calculateDisplayBoard(ledboard_t *boardDisplay, ledboard_t *board, tetermin
 		if ( tetermino->data[i] ) {
 			for ( j = 0; j < TETRIS_BOARD_WIDTH + 1; j++ ) {
 				if ( tetermino->data[i] & (1<<j) ) {
-					setColor(boardDisplay, tetermino, j, i);
+					tetris_setColor(boardDisplay, tetermino, j, i);
 				}
 			}
 		}
 	}
 }
 
-void setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y) {
+void tetris_setColor(ledboard_t *board, tetermino_t *tetermino, uint8_t x, uint8_t y) {
 	ledboard_setColor(board, x, y, tetermino->color);
 }
 
-uint8_t clearLines(ledboard_t *board) {
+uint8_t tetris_clearLines(ledboard_t *board) {
 	uint8_t count = 0;
 	uint8_t i;
 

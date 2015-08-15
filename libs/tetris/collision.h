@@ -1,5 +1,5 @@
-#ifndef __COLLISION_H__
-#define __COLLISION_H__
+#ifndef __TETRIS_COLLISION_H__
+#define __TETRIS_COLLISION_H__
 
 #include "tetris.h"
 
@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-uint8_t isCollision(ledboard_t *board, tetermino_t *tetermino);
+uint8_t tetris_isCollision(ledboard_t *board, tetermino_t *tetermino);
 
 #ifdef __cplusplus
 }

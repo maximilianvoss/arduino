@@ -1,5 +1,5 @@
-#ifndef __MOVE_H__
-#define __MOVE_H__
+#ifndef __TETRIS_MOVE_H__
+#define __TETRIS_MOVE_H__
 
 #include "tetris.h"
 
@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-uint8_t move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
+uint8_t tetris_move(ledboard_t *board, tetermino_t *tetermino, enum moveDirectionEnum direction);
 
 #ifdef __cplusplus
 }

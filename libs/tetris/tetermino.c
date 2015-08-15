@@ -2,7 +2,7 @@
 
 uint8_t static teterminoHistory[TETERMINO_CREATION_HISTORY];
 
-void createTeterminoData(tetermino_t *tetermino) {
+void tetris_createTeterminoData(tetermino_t *tetermino) {
 	uint16_t *data = tetermino->data;
 	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 	
@@ -127,7 +127,7 @@ void createTeterminoData(tetermino_t *tetermino) {
 	}
 }
 
-uint8_t calculateRotations(tetermino_t *tetermino) {
+uint8_t tetris_calculateRotations(tetermino_t *tetermino) {
 	if ( tetermino->type == i ) { 
 		return 2;
 	}  
@@ -152,7 +152,7 @@ uint8_t calculateRotations(tetermino_t *tetermino) {
 	return 0;
 }
 
-void calculateConstraints(tetermino_t *tetermino, uint8_t *start, uint8_t *stop ) {
+void tetris_calculateConstraints(tetermino_t *tetermino, uint8_t *start, uint8_t *stop ) {
 	if ( tetermino->type == i ) {
 		if ( tetermino->pos == up || tetermino->pos == down ) {
 			*start = 1;
@@ -225,14 +225,14 @@ void calculateConstraints(tetermino_t *tetermino, uint8_t *start, uint8_t *stop 
 	}
 }
 
-void initTeterminoHistory() {
+void tetris_initTeterminoHistory() {
 	uint8_t i;
 	for ( i = 0; i < TETERMINO_CREATION_HISTORY; i++ ) {
 		teterminoHistory[i] = 255;
 	}
 }
 
-uint8_t checkTeterminoHistory(uint8_t value) {
+uint8_t tetris_checkTeterminoHistory(uint8_t value) {
 	uint8_t i;
 	uint8_t count = 0;
 	for ( i = 0; i < TETERMINO_CREATION_HISTORY; i++ ) {
@@ -246,12 +246,12 @@ uint8_t checkTeterminoHistory(uint8_t value) {
 	return 0;
 }
 
-uint8_t calculateNewTetermino() {
+uint8_t tetris_calculateNewTetermino() {
 	uint8_t i;
 	uint8_t type;
 
 	type = rand() % 7;
-	while ( checkTeterminoHistory(type)) {
+	while ( tetris_checkTeterminoHistory(type)) {
 		type = rand() % 7;
 	}
 
@@ -262,23 +262,23 @@ uint8_t calculateNewTetermino() {
 	return type;
 }
 
-void createTetermino(tetermino_t* tetermino) {
+void tetris_createTetermino(tetermino_t* tetermino) {
 	uint8_t pos = TETRIS_BOARD_WIDTH / 2;
 	uint16_t *data = tetermino->data;
 	
 	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 	
 	tetermino->pos = 0;	
-	tetermino->type = calculateNewTetermino();
+	tetermino->type = tetris_calculateNewTetermino();
 	tetermino->centerPosX=pos;
 
 	if ( tetermino->type == i ) {
 		tetermino->centerPosY=TETRIS_BOARD_TOTAL_HEIGHT-2;
-		createTeterminoData(tetermino);
+		tetris_createTeterminoData(tetermino);
 		return;
 	}  else {
 		tetermino->centerPosY=TETRIS_BOARD_TOTAL_HEIGHT-3;
-		createTeterminoData(tetermino);
+		tetris_createTeterminoData(tetermino);
 		return;
 	} 
 }
