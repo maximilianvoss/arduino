@@ -266,6 +266,7 @@ void tetris_createTetermino(tetermino_t* tetermino) {
 	uint8_t pos = TETRIS_BOARD_WIDTH / 2;
 	uint16_t *data = tetermino->data;
 	
+	// TODO: might be doubled as it is also resetted in tetris_createTeterminoData
 	memset(data, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 	
 	tetermino->pos = 0;	

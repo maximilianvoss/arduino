@@ -49,6 +49,8 @@ void tetris_calculateMove(tetrisboard_t *board, tetermino_t *tetermino) {
 	tetris_createTeterminoData(tetermino);
 }
 
+
+// TODO: Make it more readable
 uint8_t tetris_isBetterRating(rating_t *bestRating, rating_t *currentRating) {
 
 	int8_t diffClearedLines = bestRating->clearedLines - currentRating->clearedLines;
@@ -91,6 +93,7 @@ rating_t tetris_calculateRating(tetrisboard_t *board, tetermino_t *tetermino) {
 	return rating;
 }
 
+// TODO: merge tetris_calculateStack and tetris_calculateRanking
 void tetris_calculateStack(tetrisboard_t *board, uint8_t *stack) {
 	uint8_t i;
 	uint8_t j;

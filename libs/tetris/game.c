@@ -3,6 +3,8 @@
 
 void tetris_createBoard(tetrisboard_t *board) {
 	uint8_t i;
+
+	// TODO: may be removed as resetted in loop below
 	memset( (void *) board->collision, 0, sizeof(uint16_t) * TETRIS_BOARD_TOTAL_HEIGHT);
 
 	board->collision[0] = 0xFFFF;
