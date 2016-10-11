@@ -3,3 +3,4 @@
 *.elf
 *.hex
 lib/tetris/tetris
+.DS_Store
